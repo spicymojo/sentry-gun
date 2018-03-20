@@ -1,14 +1,15 @@
+# -*- coding: UTF-8 -*-
 # Importamos los paquetes necesarios
 import argparse
 import datetime
 import imutils
 import time
 import cv2
- 
+
 # Construimos el parser y le pasamos los argumentos
 ap = argparse.ArgumentParser()
-ap.add_argument("-v", "--video", help="path to the video file")
-ap.add_argument("-a", "--min-area", type=int, default=500, help="minimum area size")
+ap.add_argument("-v", "--video", help="Ruta al vídeo")
+ap.add_argument("-a", "--min-area", type=int, default=500, help="Área mínima de detección")
 args = vars(ap.parse_args())
  
 # Si no indicamos el video, leemos de la webcam
@@ -23,11 +24,11 @@ else:
 # Capturamos el primer frame [Base]
 firstFrame = None
 
-# Loop sobre el video/la cam
+# Loop sobre la cam
 while True:
 	# Cogemos el frame inicial y ponemos el textot
 	(grabbed, frame) = camera.read()
-	text = "SecuredZone"
+	text = "No hay objetivos"
  
 	# Si no tenemos frame, es que no hay video
 	if not grabbed:
@@ -45,7 +46,7 @@ while True:
 		continue
 
 	#  Calculamos la diferencia absoluta entre el primer frame
-	#  y el frame actual 
+	#  y el frame actual (Es decir, el frame delta)
 
 	frameDelta = cv2.absdiff(firstFrame, gray)
 	thresh = cv2.threshold(frameDelta, 25, 255, cv2.THRESH_BINARY)[1]
@@ -66,21 +67,20 @@ while True:
 		if cv2.contourArea(c) < args["min_area"]:
 			continue
  
-		# compute the bounding box for the contour, draw it on the frame,
-		# and update the text
+		# Calcular el cuadrado, dibujarlo y actualizar el texto
 		(x, y, w, h) = cv2.boundingRect(c)
 		cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-		text = "Danger"
+		text = "Objetivo detectado!"
 
-	# draw the text and timestamp on the frame
+	# Imprimimos el texto y la fecha en la ventana
 	cv2.putText(frame, "Estado: {}".format(text), (10, 20),
 		cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 	cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
 		(10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
  
 	# show the frame and record if the user presses a key
-	cv2.imshow("Security Feed", frame)
-	cv2.imshow("Thresh", thresh)
+	cv2.imshow("Cámara", frame)
+	cv2.imshow("Umbralizado", thresh)
 	cv2.imshow("Frame Delta", frameDelta)
 	key = cv2.waitKey(1) & 0xFF
  
@@ -88,6 +88,6 @@ while True:
 	if key == ord("q"):
 		break
  
-# cleanup the camera and close any open windows
+# Liberamos la cámara y cerramos las ventanas
 camera.release()
 cv2.destroyAllWindows()
