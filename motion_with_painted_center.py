@@ -1,18 +1,21 @@
 # -*- coding: UTF-8 -*-
+
+# Este proyecto utiliza OpenCV 3.1.0 y Python 2.7.13
+
 # Importamos los paquetes necesarios
 import argparse
 import datetime
 import imutils
 import time
 import cv2
-
+import numpy as np
 # Construimos el parser y le pasamos los argumentos
 ap = argparse.ArgumentParser()
 ap.add_argument("-v", "--video", help="Ruta al vídeo")
 ap.add_argument("-a", "--min-area", type=int, default=500, help="Área mínima de detección")
 args = vars(ap.parse_args())
  
-# Si no indicamos el video, leemos de la webcam
+# Si no indicamos el video (lo normal), leemos de la webcam
 if args.get("video", None) is None:
 	camera = cv2.VideoCapture(0)
 	time.sleep(0.25)
@@ -69,7 +72,17 @@ while True:
  
 		# Calcular el cuadrado, dibujarlo y actualizar el texto
 		(x, y, w, h) = cv2.boundingRect(c)
-		print("Centro del cuadrado: " + str(x/2) + str(y/2))
+
+		# Creamos un círculo para el centro del cuadrado
+		img = np.zeros((512, 512, 3), np.uint8)
+
+		# Dibujamos el centro del cuadrado
+		cv2.circle(frame, (x + w/2, y+h/2), 5, (0, 0, 255), -1)
+
+		# PARÄMETROS DE DIBUJAR EL CÍRCULO
+		# cv2.circle(img, center, radius, color[, thickness[, lineType[, shift]]])
+
+
 		cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 		text = "Objetivo detectado!"
 
@@ -80,16 +93,16 @@ while True:
 	cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
 		(10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
  
-	# show the frame and record if the user presses a key
+	# Mostrramos el frame actual, y comprobamos si el usuario quiere salir
 	cv2.imshow("Cámara", frame)
 	cv2.imshow("Umbralizado", thresh)
 	cv2.imshow("Frame Delta", frameDelta)
 	key = cv2.waitKey(1) & 0xFF
  
-	# Q = Escape
+	# Q = Salir del programa
 	if key == ord("q"):
 		break
- 
+
 # Liberamos la cámara y cerramos las ventanas
 camera.release()
 cv2.destroyAllWindows()
