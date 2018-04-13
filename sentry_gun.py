@@ -33,8 +33,10 @@ camera = cv2.VideoCapture(0)
 time.sleep(2.5)
 print("[DONE] Cámara ready")
 
-# Capturamos el primer frame [Base]
+# Definimos los frames a utilizar
 firstFrame = None
+actualFrame = None
+count = 0
 
 # Inicializamos las variables para almacenar el último objetivo detectado
 last_target_x = 0
@@ -48,44 +50,72 @@ while True:
 
     # Si no tenemos frame, es que no hay video
     if not video_signal:
+        print ("[END] Not video signal available")
         break
 
     # Resize al frame, convertir a escala de grises
     # y le hacemos el blur
-    frame = imutils.resize(frame, width=500)
+    frame = imutils.resize(frame, width=600)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     gray = cv2.GaussianBlur(gray, (21, 21), 0)
 
     # Si no hay primer frame, lo inicializamos
     if firstFrame is None:
-        firstFrame = gray
-        print("INICIALIZADO PRIMER FRAME")
-        continue
+        print(" EMPEZANDO CAPTURA DE VÍDEO ")
+        if actualFrame is None:
+            actualFrame = gray
+            continue
+        else:
+            #  Calculamos la diferencia absoluta entre el primer frame
+            #  y el frame actual (Es decir, el frame delta)
+            abs_difference = cv2.absdiff(actualFrame, gray)
+            actualFrame = gray
+            thresh = cv2.threshold(abs_difference,5, 255, cv2.THRESH_BINARY)[1]
+            thresh = cv2.dilate(thresh, None, iterations=2)
 
-    #  Calculamos la diferencia absoluta entre el primer frame
-    #  y el frame actual (Es decir, el frame delta)
+            if count > 30:
+                print(" ESPERANDO MOVIMIENTO...")
+                if not cv2.countNonZero(thresh) > 0:
+                    firstFrame = gray
+                else:
+                    continue
+            else:
+                count += 1
+                continue
 
+    # compute the absolute difference between the current frame and
+    # first frame
     frameDelta = cv2.absdiff(firstFrame, gray)
     thresh = cv2.threshold(frameDelta, 25, 255, cv2.THRESH_BINARY)[1]
 
-    # Dilatamos la imagen umbralizada para rellenar los huecos, entonces
-    # encontramos los contornos de dicha imagen
-
+    # dilate the thresholded image to fill in holes, then find contours
+    # on thresholded image
     thresh = cv2.dilate(thresh, None, iterations=2)
+
+
+    ########################################
+    image, borders, h = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    big_area = 5000
+    big_contour = None
+    for b in borders:
+        area = cv2.contourArea(b)
+        if area > big_area:
+            big_area = area
+            big_contour = b
+
+
+    #######################
 
     # Esta cadena es en Python 2.7
     #(cnts, _) = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
     #	cv2.CHAIN_APPROX_SIMPLE)
-    (_,cnts, _) = cv2.findContours(thresh.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    #(_,cnts, _) = cv2.findContours(thresh.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 
     # Bucle sobre los contornos
-    for c in cnts:
-        # Contorno pequeno (menor de 500)? Pasamos
-        if cv2.contourArea(c) < minimum_target_area:
-            continue
+    if big_contour is not None:
 
         # Calcular el cuadrado, dibujarlo y actualizar el texto
-        (x, y, w, h) = cv2.boundingRect(c)
+        (x, y, w, h) = cv2.boundingRect(big_contour)
 
         # Creamos un círculo para el centro del cuadrado
         img = np.zeros((512, 512, 3), np.uint8)
@@ -125,3 +155,4 @@ while True:
 # Liberamos la cámara y cerramos las ventanas
 camera.release()
 cv2.destroyAllWindows()
+
