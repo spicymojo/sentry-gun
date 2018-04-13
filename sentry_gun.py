@@ -2,14 +2,13 @@
 
 # Este proyecto utiliza OpenCV 3.1.0 y Python 2.7.13
 
-# Importamos los paquetes necesarios
 import argparse
+# Importamos los paquetes necesarios
 import datetime
-import imutils
 import time
 import cv2
+import imutils
 import numpy as np
-import argparse
 
 # Opciones de configuración
 parser = argparse.ArgumentParser()
@@ -46,12 +45,14 @@ last_target_y = 0
 while True:
     # Cogemos el frame inicial y ponemos el texto
     (video_signal, frame) = camera.read()
+
     text = "No hay objetivos"
 
-    # Si no tenemos frame, es que no hay video
-    if not video_signal:
-        print ("[END] Not video signal available")
-        break
+    # Comprobamos que la cámara está activa (Si no, lleva a errores de compilación
+    while not video_signal and frame:
+        time.sleep(1)
+        (video_signal, frame) = camera.read()
+    time.sleep(0.1)
 
     # Resize al frame, convertir a escala de grises
     # y le hacemos el blur
@@ -61,8 +62,8 @@ while True:
 
     # Si no hay primer frame, lo inicializamos
     if firstFrame is None:
-        print(" EMPEZANDO CAPTURA DE VÍDEO ")
         if actualFrame is None:
+            print(" EMPEZANDO CAPTURA DE VÍDEO ")
             actualFrame = gray
             continue
         else:
