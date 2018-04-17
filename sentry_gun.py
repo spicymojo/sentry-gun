@@ -53,12 +53,6 @@ while True:
 
     text = "No hay objetivos"
 
-    # Comprobamos que la cámara está activa (Si no, lleva a errores de compilación
-    while not video_signal and frame:
-        time.sleep(1)
-        (video_signal, frame) = camera.read()
-    time.sleep(0.1)
-
     # Resize al frame, convertir a escala de grises
     # y le hacemos el blur
     frame = imutils.resize(frame, width=500)
