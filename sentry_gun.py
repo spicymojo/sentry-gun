@@ -15,6 +15,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-s","--size", nargs='?', default=500)
 args = vars(parser.parse_args())
 
+# Definimos los colores utilizados, para facilitar la lectura
+red = (0,0,255)
+green = (0,255,0)
 
 # FUNCIONES
 def find_best_target():
@@ -42,7 +45,7 @@ def draw_contour(contour):
     # Dibujamos el centro del cuadrado
     center_x = x + w / 2
     center_y = y + h / 2
-    cv2.circle(frame, (center_x, center_y), 5, (0, 0, 255), -1)
+    cv2.circle(frame, (center_x, center_y), 5, red, -1)
 
     if center_x != last_target_x or center_y != last_target_y:
         last_target_x = center_x
@@ -51,8 +54,9 @@ def draw_contour(contour):
 
     # PARÄMETROS PARA DIBUJAR EL CÍRCULO
     # cv2.circle(img, center, radius, color[, thickness[, lineType[, shift]]])
-    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-    text = "Objetivo detectado!"
+
+    # Dibujamos el marco del objetivo
+    cv2.rectangle(frame, (x, y), (x + w, y + h), green, 2)
 
 # CONFIGURACIÓN DEL PROGRAMA
 
@@ -132,15 +136,10 @@ while True:
     # Buscamos el contorno del mayor objetivo
     best_contour = find_best_target()
 
-    # Esta cadena es en Python 2.7 (SOLO SI ITERAMOS POR LOS CONTORNOS
-    #(cnts, _) = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
-    #	cv2.CHAIN_APPROX_SIMPLE)
-    #(_,cnts, _) = cv2.findContours(thresh.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-
     # Bucle sobre los contornos
     if best_contour is not None:
         draw_contour(best_contour)
-
+        text = "Objetivo detectado!"
 
     # Imprimimos el texto y la fecha en la ventana
     cv2.putText(frame, "Estado: {}".format(text), (10, 20),
