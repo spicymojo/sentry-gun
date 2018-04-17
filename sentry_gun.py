@@ -26,10 +26,15 @@ else:
 print("[START] Arrancando cámara")
 
 # Empezamos la captura del vídeo de la webcam
-camera = cv2.VideoCapture(0)
+camera_recording = False
 
-# Dejamos tiempo para que la cámara arranque (Si no, da errores de compilación)
-time.sleep(2.5)
+while camera_recording is not True:
+    camera = cv2.VideoCapture(0)
+    time.sleep(1)
+
+    # El primer parámetro será True cuando la cámara esté preparada
+    camera_recording, _ = camera.read()
+
 print("[DONE] Cámara ready")
 
 # Definimos los frames a utilizar
@@ -56,7 +61,7 @@ while True:
 
     # Resize al frame, convertir a escala de grises
     # y le hacemos el blur
-    frame = imutils.resize(frame, width=600)
+    frame = imutils.resize(frame, width=500)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     gray = cv2.GaussianBlur(gray, (21, 21), 0)
 
