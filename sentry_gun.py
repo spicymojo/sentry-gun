@@ -15,6 +15,46 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-s","--size", nargs='?', default=500)
 args = vars(parser.parse_args())
 
+
+# FUNCIONES
+def find_best_target():
+    image, borders, h = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    big_area = 5000
+    best_contour = None
+    for b in borders:
+        area = cv2.contourArea(b)
+        if area > big_area:
+            big_area = area
+            best_contour = b
+    return best_contour
+
+def draw_contour(contour):
+    # Inicializamos las variables para almacenar el último objetivo detectado
+    last_target_x = 0
+    last_target_y = 0
+
+    # Calcular el cuadrado, dibujarlo y actualizar el texto
+    (x, y, w, h) = cv2.boundingRect(contour)
+
+    # Creamos un círculo para el centro del cuadrado
+    img = np.zeros((512, 512, 3), np.uint8)
+
+    # Dibujamos el centro del cuadrado
+    center_x = x + w / 2
+    center_y = y + h / 2
+    cv2.circle(frame, (center_x, center_y), 5, (0, 0, 255), -1)
+
+    if center_x != last_target_x or center_y != last_target_y:
+        last_target_x = center_x
+        last_target_y = center_y
+        print("NEW TARGET: [" + str(last_target_x) + "," + str(last_target_y) + "]")
+
+    # PARÄMETROS PARA DIBUJAR EL CÍRCULO
+    # cv2.circle(img, center, radius, color[, thickness[, lineType[, shift]]])
+    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    text = "Objetivo detectado!"
+
+
 # Definimos el tamaño mínimo que debe tener el obetivo para ser detectado
 if 500 == args["size"]:
     minimum_target_area = 500
@@ -22,6 +62,11 @@ if 500 == args["size"]:
 else:
     minimum_target_area = args["size"]
     print("Minimum_target_area:" + str(args["size"]))
+
+## FUNCTIONS
+
+
+
 
 print("[START] Arrancando cámara")
 
@@ -41,10 +86,6 @@ print("[DONE] Cámara ready")
 firstFrame = None
 actualFrame = None
 count = 0
-
-# Inicializamos las variables para almacenar el último objetivo detectado
-last_target_x = 0
-last_target_y = 0
 
 # Loop sobre la camara
 while True:
@@ -92,47 +133,17 @@ while True:
     # on thresholded image
     thresh = cv2.dilate(thresh, None, iterations=2)
 
+    # Buscamos el contorno del mayor objetivo
+    best_contour = find_best_target()
 
-    ########################################
-    image, borders, h = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    big_area = 5000
-    big_contour = None
-    for b in borders:
-        area = cv2.contourArea(b)
-        if area > big_area:
-            big_area = area
-            big_contour = b
-
-
-    #######################
-
-    # Esta cadena es en Python 2.7
+    # Esta cadena es en Python 2.7 (SOLO SI ITERAMOS POR LOS CONTORNOS
     #(cnts, _) = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
     #	cv2.CHAIN_APPROX_SIMPLE)
     #(_,cnts, _) = cv2.findContours(thresh.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 
     # Bucle sobre los contornos
-    if big_contour is not None:
-
-        # Calcular el cuadrado, dibujarlo y actualizar el texto
-        (x, y, w, h) = cv2.boundingRect(big_contour)
-
-        # Creamos un círculo para el centro del cuadrado
-        img = np.zeros((512, 512, 3), np.uint8)
-
-        # Dibujamos el centro del cuadrado
-        center_x = x + w/2
-        center_y = y+h/2
-        cv2.circle(frame, (center_x,center_y ), 5, (0, 0, 255), -1)
-        if center_x != last_target_x or center_y != last_target_y:
-            last_target_x = center_x
-            last_target_y = center_y
-            print("NEW TARGET: [" + str(last_target_x) + "," + str(last_target_y) + "]")
-
-        # PARÄMETROS DE DIBUJAR EL CÍRCULO
-        # cv2.circle(img, center, radius, color[, thickness[, lineType[, shift]]])
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        text = "Objetivo detectado!"
+    if best_contour is not None:
+        draw_contour(best_contour)
 
 
     # Imprimimos el texto y la fecha en la ventana
