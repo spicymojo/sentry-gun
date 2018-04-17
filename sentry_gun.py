@@ -54,21 +54,17 @@ def draw_contour(contour):
     cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
     text = "Objetivo detectado!"
 
+# CONFIGURACIÓN DEL PROGRAMA
 
-# Definimos el tamaño mínimo que debe tener el obetivo para ser detectado
+# Tamaño mínimo de objetivo
 if 500 == args["size"]:
     minimum_target_area = 500
-    print("Minumum_target_area: 500")
+    print("[CONFIG] Minumum_target_area: 500")
 else:
     minimum_target_area = args["size"]
-    print("Minimum_target_area:" + str(args["size"]))
+    print("[CONFIG] Minimum_target_area:" + str(args["size"]))
 
-## FUNCTIONS
-
-
-
-
-print("[START] Arrancando cámara")
+print("[START] Preparando cámara....")
 
 # Empezamos la captura del vídeo de la webcam
 camera_recording = False
@@ -80,7 +76,7 @@ while camera_recording is not True:
     # El primer parámetro será True cuando la cámara esté preparada
     camera_recording, _ = camera.read()
 
-print("[DONE] Cámara ready")
+print("[DONE] Cámara lista!")
 
 # Definimos los frames a utilizar
 firstFrame = None
@@ -103,7 +99,7 @@ while True:
     # Si no hay primer frame, lo inicializamos
     if firstFrame is None:
         if actualFrame is None:
-            print(" EMPEZANDO CAPTURA DE VÍDEO ")
+            print(" [INFO] Empezando captura de vídeo... ")
             actualFrame = gray
             continue
         else:
@@ -115,7 +111,7 @@ while True:
             thresh = cv2.dilate(thresh, None, iterations=2)
 
             if count > 30:
-                print(" ESPERANDO MOVIMIENTO...")
+                print(" [INFO] Esperando movimiento...")
                 if not cv2.countNonZero(thresh) > 0:
                     firstFrame = gray
                 else:
@@ -160,7 +156,7 @@ while True:
 
     # Q = Salir del programa
     if key == ord("q"):
-        print("APAGANDO SISTEMA...")
+        print("[END] Apagando el sistema...")
         break
 
 # Liberamos la cámara y cerramos las ventanas
