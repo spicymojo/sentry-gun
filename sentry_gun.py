@@ -1,25 +1,43 @@
 # -*- coding: UTF-8 -*-
+# En este proyecto se utilizan OpenCV 3.1.0 y Python 2.7.13
 
-# Este proyecto utiliza OpenCV 3.1.0 y Python 2.7.13
+#####  LIBRERÍAS  #####
 
+# Parseador de argumentos de consola
 import argparse
-# Importamos los paquetes necesarios
+
+# Librerías para fechas y tiempo
 import datetime
 import time
+
+# Librerias de OpenCV y auxiliares para tratamiento de imagen
 import cv2
 import imutils
 import numpy as np
+
+# Librerias para los motores
+from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_StepperMotor
 
 # Opciones de configuración
 parser = argparse.ArgumentParser()
 parser.add_argument("-s","--size", nargs='?', default=500)
 args = vars(parser.parse_args())
 
-# Definimos los colores utilizados, para facilitar la lectura
+# Parseo de las opciones (Tamaño de objetivo)
+if 500 == args["size"]:
+    minimum_target_area = 500
+    print("[CONFIG] Minumum_target_area: 500")
+else:
+    minimum_target_area = args["size"]
+    print("[CONFIG] Minimum_target_area:" + str(args["size"]))
+
+
+# Valores RGB de los colores utilizados
 red = (0,0,255)
 green = (0,255,0)
 
-# FUNCIONES
+##### FUNCIONES #####
+
 def find_best_target():
     image, borders, h = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     big_area = 5000
@@ -38,6 +56,12 @@ def draw_contour(contour):
 
     # Calcular el cuadrado, dibujarlo y actualizar el texto
     (x, y, w, h) = cv2.boundingRect(contour)
+
+    # TO-DO TEST.DELETE
+    print("X: " + str(x))
+    print("Y: " + str(y))
+    print("W: " + str(w))
+    print("H: " + str(h))
 
     # Creamos un círculo para el centro del cuadrado
     img = np.zeros((512, 512, 3), np.uint8)
@@ -58,31 +82,29 @@ def draw_contour(contour):
     # Dibujamos el marco del objetivo
     cv2.rectangle(frame, (x, y), (x + w, y + h), green, 2)
 
-# CONFIGURACIÓN DEL PROGRAMA
+def write_date_on_video():
+    # Imprimimos el texto y la fecha en la ventana
+    cv2.putText(frame, "Estado: {}".format(text), (10, 25),
+        cv2.FONT_HERSHEY_PLAIN, 1.25, red, 2)
+    cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
+        (10, frame.shape[0] - 15), cv2.FONT_HERSHEY_PLAIN, 1, red, 1)
 
-# Tamaño mínimo de objetivo
-if 500 == args["size"]:
-    minimum_target_area = 500
-    print("[CONFIG] Minumum_target_area: 500")
-else:
-    minimum_target_area = args["size"]
-    print("[CONFIG] Minimum_target_area:" + str(args["size"]))
+###### FIN DE FUNCIONES #####
 
+# Empezamos a capturar la webcam
 print("[START] Preparando cámara....")
-
-# Empezamos la captura del vídeo de la webcam
 camera_recording = False
 
 while camera_recording is not True:
     camera = cv2.VideoCapture(0)
     time.sleep(1)
 
-    # El primer parámetro será True cuando la cámara esté preparada
+    # Esperamos a que la cámara esté preparada
     camera_recording, _ = camera.read()
 
 print("[DONE] Cámara lista!")
 
-# Definimos los frames a utilizar
+# Inicializamos variables para iterar con la cámara
 firstFrame = None
 actualFrame = None
 count = 0
@@ -94,8 +116,8 @@ while True:
 
     text = "No hay objetivos"
 
-    # Resize al frame, convertir a escala de grises
-    # y le hacemos el blur
+    # Redimensionamos el frame, lo convertimos a escala de grises
+    # y lo desenfocamos (Blur)
     frame = imutils.resize(frame, width=500)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     gray = cv2.GaussianBlur(gray, (21, 21), 0)
@@ -107,8 +129,8 @@ while True:
             actualFrame = gray
             continue
         else:
-            #  Calculamos la diferencia absoluta entre el primer frame
-            #  y el frame actual (Es decir, el frame delta)
+            #  Calculamos el frame Delta (Diferencia absoluta entre
+            # primer frame y # el frame actual)
             abs_difference = cv2.absdiff(actualFrame, gray)
             actualFrame = gray
             thresh = cv2.threshold(abs_difference,5, 255, cv2.THRESH_BINARY)[1]
@@ -129,8 +151,7 @@ while True:
     frameDelta = cv2.absdiff(firstFrame, gray)
     thresh = cv2.threshold(frameDelta, 25, 255, cv2.THRESH_BINARY)[1]
 
-    # dilate the thresholded image to fill in holes, then find contours
-    # on thresholded image
+    # Dilatamos la imagen umbralizado, para asi buscar sus contornos
     thresh = cv2.dilate(thresh, None, iterations=2)
 
     # Buscamos el contorno del mayor objetivo
@@ -141,11 +162,8 @@ while True:
         draw_contour(best_contour)
         text = "Objetivo detectado!"
 
-    # Imprimimos el texto y la fecha en la ventana
-    cv2.putText(frame, "Estado: {}".format(text), (10, 20),
-        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-    cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
-        (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
+    # Mostramos la fecha y hora en el livestream
+    write_date_on_video()
 
     # Mostramos el frame actual, y comprobamos si el usuario quiere salir
     cv2.imshow("Cámara", frame)
@@ -160,5 +178,6 @@ while True:
 
 # Liberamos la cámara y cerramos las ventanas
 camera.release()
+time.sleep(1)  # Liberamos correctamente la cámara
 cv2.destroyAllWindows()
 
