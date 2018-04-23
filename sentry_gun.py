@@ -89,6 +89,13 @@ def write_date_on_video():
     cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
         (10, frame.shape[0] - 15), cv2.FONT_HERSHEY_PLAIN, 1, red, 1)
 
+def motor_test():
+    # Probamos el motor de la base
+    print(" [TEST] Probando el motor de la base")
+    motor_x_axis.step(25, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
+    motor_x_axis.step(25, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
+
+
 ###### FIN DE FUNCIONES #####
 
 # Empezamos a capturar la webcam
@@ -102,12 +109,17 @@ while camera_recording is not True:
     # Esperamos a que la cámara esté preparada
     camera_recording, _ = camera.read()
 
-print("[DONE] Cámara lista!")
-
 # Inicializamos variables para iterar con la cámara
 firstFrame = None
 actualFrame = None
 count = 0
+print("[DONE] Cámara lista!")
+
+print("[INFO] Inicializamos los motores...")
+mh = Adafruit_MotorHAT(addr = 0x60)
+motor_x_axis = mh.getStepper(200,1)
+motor_y_axis = mh.getStepper(200,2)
+motor_test()
 
 # Loop sobre la camara
 while True:
