@@ -18,25 +18,28 @@ import numpy as np
 # Librerias para los motores
 from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_StepperMotor
 
-# Opciones de configuración
-parser = argparse.ArgumentParser()
-parser.add_argument("-s","--size", nargs='?', default=500)
-args = vars(parser.parse_args())
+# Lectura de configuración
+import json
 
-# Parseo de las opciones (Tamaño de objetivo)
-if 500 == args["size"]:
-    minimum_target_area = 500
-    print("[CONFIG] Minumum_target_area: 500")
-else:
-    minimum_target_area = args["size"]
-    print("[CONFIG] Minimum_target_area:" + str(args["size"]))
-
-
-# Valores RGB de los colores utilizados
-red = (0,0,255)
-green = (0,255,0)
+# Fuente para la interfaz
+message_font = cv2.FONT_HERSHEY_PLAIN
 
 ##### FUNCIONES #####
+def load_config():
+    config = json.load(open('config.json'))
+    global minimum_target_area, frame_width, exit_key, motor_revs, motor_testing_steps,frame_color,center_color
+
+    minimum_target_area= config['GENERAL']['MINIMUM_TARGET_AREA']
+    frame_width = config['GENERAL']['FRAME_WIDTH']
+    exit_key = config['GENERAL']['EXIT_KEY']
+    motor_revs = config['MOTOR']['MOTOR_REVS']
+    motor_testing_steps = config['MOTOR']['TESTING_STEPS']
+    frame_color = hex_to_rgb(config['GENERAL']['TARGET_FRAME_COLOR'])
+    center_color = hex_to_rgb(config['GENERAL']['TARGET_CENTER_COLOR'])
+
+def hex_to_rgb(hex):
+    rgb = tuple(map(ord,hex[1:].decode('hex')))
+    return rgb
 
 def find_best_target():
     image, borders, h = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -53,29 +56,26 @@ def draw_contour(contour):
     # Calcular el cuadrado, dibujarlo y actualizar el texto
     (x, y, w, h) = cv2.boundingRect(contour)
 
-    # Creamos un círculo para el centro del cuadrado
-    img = np.zeros((512, 512, 3), np.uint8)
-
     # Dibujamos el centro del cuadrado, es decir, el objetivo
-    draw_center_circle(x,y,w,h)
+    draw_target_center(x,y,w,h)
 
     # Dibujamos el marco del objetivo
-    cv2.rectangle(frame, (x, y), (x + w, y + h), green, 2)
+    cv2.rectangle(frame, (x, y), (x + w, y + h), frame_color, 2)
 
-def draw_center_circle(x,y,w,h):
+def draw_target_center(x,y,w,h):
     # PARÄMETROS PARA DIBUJAR EL CÍRCULO
     # cv2.circle(img, center, radius, color[, thickness[, lineType[, shift]]])
 
     square_center_x = x + w / 2
     square_center_y = y + h / 2
-    cv2.circle(frame, (square_center_x, square_center_y), 5, red, -1)
+    cv2.circle(frame, (square_center_x, square_center_y), 5, center_color, -1)
 
 def write_date_on_video():
     # Imprimimos el texto y la fecha en la ventana
     cv2.putText(frame, "Estado: {}".format(text), (10, 25),
-        cv2.FONT_HERSHEY_PLAIN, 1.25, red, 2)
+        message_font, 1.25, center_color, 2)
     cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
-        (10, frame.shape[0] - 15), cv2.FONT_HERSHEY_PLAIN, 1, red, 1)
+        (10, frame.shape[0] - 15), message_font, 1, center_color, 1)
 
 def motor_test():
     # Probamos el motor de la base
@@ -86,6 +86,8 @@ def motor_test():
 
 ###### FIN DE FUNCIONES #####
 
+# Cargamos la configuración del archivo JSON
+load_config()
 # Empezamos a capturar la webcam
 print("[START] Preparando cámara....")
 camera_recording = False
@@ -116,7 +118,7 @@ while True:
 
     text = "No hay objetivos"
 
-    # Redimensionamos el frame, lo convertimos a escala de grises
+    # center_colorimensionamos el frame, lo convertimos a escala de grises
     # y lo desenfocamos (Blur)
     frame = imutils.resize(frame, width=500)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -172,7 +174,7 @@ while True:
     key = cv2.waitKey(1) & 0xFF
 
     # Q = Salir del programa
-    if key == ord("q"):
+    if key == ord(exit_key):
         print("[END] Apagando el sistema...")
         break
 
