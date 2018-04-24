@@ -80,8 +80,8 @@ def write_date_on_video():
 def motor_test():
     # Probamos el motor de la base
     print(" [TEST] Probando el motor de la base")
-    motor_x_axis.step(25, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
-    motor_x_axis.step(25, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
+    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
+    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
 
 
 ###### FIN DE FUNCIONES #####
@@ -107,8 +107,8 @@ print("[DONE] Cámara lista!")
 
 print("[INFO] Inicializamos los motores...")
 mh = Adafruit_MotorHAT(addr = 0x60)
-motor_x_axis = mh.getStepper(200,1)
-motor_y_axis = mh.getStepper(200,2)
+motor_x_axis = mh.getStepper(motor_revs,1)
+motor_y_axis = mh.getStepper(motor_revs,2)
 #motor_test()
 
 # Loop sobre la camara
