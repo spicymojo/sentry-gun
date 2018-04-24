@@ -50,37 +50,25 @@ def find_best_target():
     return best_contour
 
 def draw_contour(contour):
-    # Inicializamos las variables para almacenar el último objetivo detectado
-    last_target_x = 0
-    last_target_y = 0
-
     # Calcular el cuadrado, dibujarlo y actualizar el texto
     (x, y, w, h) = cv2.boundingRect(contour)
-
-    # TO-DO TEST.DELETE
-    print("X: " + str(x))
-    print("Y: " + str(y))
-    print("W: " + str(w))
-    print("H: " + str(h))
 
     # Creamos un círculo para el centro del cuadrado
     img = np.zeros((512, 512, 3), np.uint8)
 
-    # Dibujamos el centro del cuadrado
-    center_x = x + w / 2
-    center_y = y + h / 2
-    cv2.circle(frame, (center_x, center_y), 5, red, -1)
-
-    if center_x != last_target_x or center_y != last_target_y:
-        last_target_x = center_x
-        last_target_y = center_y
-        print("NEW TARGET: [" + str(last_target_x) + "," + str(last_target_y) + "]")
-
-    # PARÄMETROS PARA DIBUJAR EL CÍRCULO
-    # cv2.circle(img, center, radius, color[, thickness[, lineType[, shift]]])
+    # Dibujamos el centro del cuadrado, es decir, el objetivo
+    draw_center_circle(x,y,w,h)
 
     # Dibujamos el marco del objetivo
     cv2.rectangle(frame, (x, y), (x + w, y + h), green, 2)
+
+def draw_center_circle(x,y,w,h):
+    # PARÄMETROS PARA DIBUJAR EL CÍRCULO
+    # cv2.circle(img, center, radius, color[, thickness[, lineType[, shift]]])
+
+    square_center_x = x + w / 2
+    square_center_y = y + h / 2
+    cv2.circle(frame, (square_center_x, square_center_y), 5, red, -1)
 
 def write_date_on_video():
     # Imprimimos el texto y la fecha en la ventana
@@ -119,7 +107,7 @@ print("[INFO] Inicializamos los motores...")
 mh = Adafruit_MotorHAT(addr = 0x60)
 motor_x_axis = mh.getStepper(200,1)
 motor_y_axis = mh.getStepper(200,2)
-motor_test()
+#motor_test()
 
 # Loop sobre la camara
 while True:
