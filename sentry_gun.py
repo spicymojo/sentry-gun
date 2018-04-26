@@ -4,8 +4,6 @@
 #####  LIBRERÍAS  #####
 
 # Parseador de argumentos de consola
-import argparse
-
 # Librerías para fechas y tiempo
 import datetime
 import time
@@ -34,13 +32,13 @@ def load_config():
     exit_key = config['GENERAL']['EXIT_KEY']
     motor_revs = config['MOTOR']['MOTOR_REVS']
     motor_testing_steps = config['MOTOR']['TESTING_STEPS']
-    frame_color = hex_to_rgb(config['GENERAL']['TARGET_FRAME_COLOR'])
-    center_color = hex_to_rgb(config['GENERAL']['TARGET_CENTER_COLOR'])
+    frame_color = string_to_rgb(config['GENERAL']['TARGET_FRAME_COLOR'])
+    center_color = string_to_rgb(config['GENERAL']['TARGET_CENTER_COLOR'])
 
-def hex_to_rgb(hex):
-    rgb = tuple(map(ord,hex[1:].decode('hex')))
-    return rgb
-
+def string_to_rgb(rgb_string):  # OpenCV uses BGR
+    b,g,r = rgb_string.split(",")
+    return (int(b),int(g),int(r))
+    
 def find_best_target():
     image, borders, h = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     big_area = 5000
