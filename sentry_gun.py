@@ -25,7 +25,8 @@ message_font = cv2.FONT_HERSHEY_PLAIN
 ##### FUNCIONES #####
 def load_config():
     config = json.load(open('config.json'))
-    global minimum_target_area, frame_width, exit_key, motor_revs, motor_testing_steps,frame_color,center_color
+    global minimum_target_area, frame_width, exit_key, motor_revs, \
+        motor_testing_steps,frame_color,center_color
 
     minimum_target_area= config['GENERAL']['MINIMUM_TARGET_AREA']
     frame_width = config['GENERAL']['FRAME_WIDTH']
@@ -68,7 +69,7 @@ def draw_target_center(x,y,w,h):
     square_center_y = y + h / 2
     cv2.circle(frame, (square_center_x, square_center_y), 5, center_color, -1)
 
-def write_date_on_video():
+def print_date_on_video():
     # Imprimimos el texto y la fecha en la ventana
     cv2.putText(frame, "Estado: {}".format(text), (10, 25),
         message_font, 1.25, center_color, 2)
@@ -81,6 +82,12 @@ def motor_test():
     motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
     motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
 
+def vacuum_cleaner():
+    # Liberamos la cámara y cerramos las ventanas
+    camera.release()
+    time.sleep(1)
+    cv2.destroyAllWindows()
+    print("[DONE] Roomba pasada. Fin del programa")
 
 ###### FIN DE FUNCIONES #####
 
@@ -96,12 +103,12 @@ while camera_recording is not True:
 
     # Esperamos a que la cámara esté preparada
     camera_recording, _ = camera.read()
+print("[DONE] Cámara lista!")
 
 # Inicializamos variables para iterar con la cámara
 firstFrame = None
 actualFrame = None
 count = 0
-print("[DONE] Cámara lista!")
 
 print("[INFO] Inicializamos los motores...")
 mh = Adafruit_MotorHAT(addr = 0x60)
@@ -146,8 +153,8 @@ while True:
                 count += 1
                 continue
 
-    # compute the absolute difference between the current frame and
-    # first frame
+    # Calculamos la diferencia absoluta entre el frame actual
+    # y el primer frame
     frameDelta = cv2.absdiff(firstFrame, gray)
     thresh = cv2.threshold(frameDelta, 25, 255, cv2.THRESH_BINARY)[1]
 
@@ -163,21 +170,19 @@ while True:
         text = "Objetivo detectado!"
 
     # Mostramos la fecha y hora en el livestream
-    write_date_on_video()
+    print_date_on_video()
 
-    # Mostramos el frame actual, y comprobamos si el usuario quiere salir
+    # Mostramos las diferentes vistas de la cámara
     cv2.imshow("Cámara", frame)
     cv2.imshow("Umbralizado", thresh)
     cv2.imshow("Frame Delta", frameDelta)
-    key = cv2.waitKey(1) & 0xFF
 
+    # Comprobamos si el usuario quiere salir
+    key = cv2.waitKey(1) & 0xFF
     # Q = Salir del programa
     if key == ord(exit_key):
         print("[END] Apagando el sistema...")
         break
 
-# Liberamos la cámara y cerramos las ventanas
-camera.release()
-time.sleep(1)  # Liberamos correctamente la cámara
-cv2.destroyAllWindows()
-
+# Limpiamos todo
+vacuum_cleaner()
