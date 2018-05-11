@@ -67,6 +67,12 @@ def draw_target_center(x,y,w,h):
 
     square_center_x = x + w / 2
     square_center_y = y + h / 2
+
+    if square_center_x < 250 :
+        motor_x_axis.step(25, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.DOUBLE)
+    else:
+        motor_x_axis.step(25, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.DOUBLE)
+
     cv2.circle(frame, (square_center_x, square_center_y), 5, center_color, -1)
 
 def print_date_on_video():
@@ -114,7 +120,7 @@ print("[INFO] Inicializamos los motores...")
 mh = Adafruit_MotorHAT(addr = 0x60)
 motor_x_axis = mh.getStepper(motor_revs,1)
 motor_y_axis = mh.getStepper(motor_revs,2)
-#motor_test()
+motor_test()
 
 # Loop sobre la camara
 while True:
@@ -125,7 +131,6 @@ while True:
 
     # center_colorimensionamos el frame, lo convertimos a escala de grises
     # y lo desenfocamos (Blur)
-    frame = imutils.resize(frame, width=500)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     gray = cv2.GaussianBlur(gray, (21, 21), 0)
 
