@@ -19,22 +19,31 @@ from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_StepperMotor
 # Lectura de configuración
 import json
 
+# Librerias para evitar que los driver del motor impriman por consola
+import sys, os
+
 # Fuente para la interfaz
 message_font = cv2.FONT_HERSHEY_PLAIN
+right_steps = 0
+left_steps = 0
 
 ##### FUNCIONES #####
 def load_config():
     config = json.load(open('config.json'))
     global minimum_target_area, frame_width, exit_key, motor_revs, \
-        motor_testing_steps,frame_color,center_color
+        motor_testing_steps, maximum_right_steps, maximum_left_steps,\
+        frame_color,center_color
 
     minimum_target_area= config['GENERAL']['MINIMUM_TARGET_AREA']
     frame_width = config['GENERAL']['FRAME_WIDTH']
     exit_key = config['GENERAL']['EXIT_KEY']
     motor_revs = config['MOTOR']['MOTOR_REVS']
     motor_testing_steps = config['MOTOR']['TESTING_STEPS']
+    maximum_right_steps = config['MOTOR']['MAXIMUM_RIGHT_STEPS']
+    maximum_left_steps = config['MOTOR']['MAXIMUM_LEFT_STEPS']
     frame_color = string_to_rgb(config['GENERAL']['TARGET_FRAME_COLOR'])
     center_color = string_to_rgb(config['GENERAL']['TARGET_CENTER_COLOR'])
+    maximum_right_steps = config['MOTOR']['MAXIMUM_RIGHT_STEPS']
 
 def string_to_rgb(rgb_string):  # OpenCV uses BGR
     b,g,r = rgb_string.split(",")
@@ -67,13 +76,8 @@ def draw_target_center(x,y,w,h):
 
     square_center_x = x + w / 2
     square_center_y = y + h / 2
-
-    if square_center_x < 250 :
-        motor_x_axis.step(25, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.DOUBLE)
-    else:
-        motor_x_axis.step(25, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.DOUBLE)
-
     cv2.circle(frame, (square_center_x, square_center_y), 5, center_color, -1)
+    make_movement(square_center_x,square_center_y)
 
 def print_date_on_video():
     # Imprimimos el texto y la fecha en la ventana
@@ -87,6 +91,41 @@ def motor_test():
     print(" [TEST] Probando el motor de la base")
     motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
     motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
+
+def make_movement(x_axis, y_axis):
+    global right_steps, left_steps
+    # La lente de la cámara, 60 grados, equivale a 33 pasos del motor
+    move_direction, motor_steps = define_base_movement(x_axis)
+    disablePrint()
+
+    while (motor_steps > 0):
+        motor_x_axis.step(1, move_direction, Adafruit_MotorHAT.SINGLE)
+        motor_steps = motor_steps - 1
+    enablePrint()
+def define_base_movement(x):
+    global right_steps, left_steps
+    actual_position = right_steps - left_steps
+    target_x_position = (500 / 15) - 17  # (Pixels / pixels per step) - right steps
+    steps = abs(actual_position) + abs(target_x_position)
+
+    if (actual_position > target_x_position):
+        direction = Adafruit_MotorHAT.BACKWARD
+        left_steps = steps
+    else:
+        direction = Adafruit_MotorHAT.FORWARD
+        right_steps = steps
+    print("STEPS: " + str(steps))
+    print("TARGET LOCATION: " + str(target_x_position))
+    return direction,steps
+
+def disablePrint():
+    sys.stdout = open(os.devnull, 'w')
+
+# Activamos de nuevo
+def enablePrint():
+    sys.stdout = sys.__stdout__
+
+
 
 def vacuum_cleaner():
     # Liberamos la cámara y cerramos las ventanas
@@ -116,11 +155,12 @@ firstFrame = None
 actualFrame = None
 count = 0
 
+
 print("[INFO] Inicializamos los motores...")
 mh = Adafruit_MotorHAT(addr = 0x60)
 motor_x_axis = mh.getStepper(motor_revs,1)
 motor_y_axis = mh.getStepper(motor_revs,2)
-motor_test()
+#motor_test()
 
 # Loop sobre la camara
 while True:
