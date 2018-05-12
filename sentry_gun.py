@@ -24,8 +24,7 @@ import sys, os
 
 # Fuente para la interfaz
 message_font = cv2.FONT_HERSHEY_PLAIN
-right_steps = 0
-left_steps = 0
+position= 16
 
 ##### FUNCIONES #####
 def load_config():
@@ -93,7 +92,7 @@ def motor_test():
     motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
 
 def make_movement(x_axis, y_axis):
-    global right_steps, left_steps
+    global position
     # La lente de la cámara, 60 grados, equivale a 33 pasos del motor
     move_direction, motor_steps = define_base_movement(x_axis)
     disablePrint()
@@ -102,18 +101,22 @@ def make_movement(x_axis, y_axis):
         motor_x_axis.step(1, move_direction, Adafruit_MotorHAT.SINGLE)
         motor_steps = motor_steps - 1
     enablePrint()
-def define_base_movement(x):
-    global right_steps, left_steps
-    actual_position = right_steps - left_steps
-    target_x_position = (500 / 15) - 17  # (Pixels / pixels per step) - right steps
-    steps = abs(actual_position) + abs(target_x_position)
 
-    if (actual_position > target_x_position):
+def define_base_movement(x):
+    global position
+    target_x_position = (500 / 15) # (Pixels / pixels per step)
+    if (target_x_position > 16):
+        steps = position + target_x_position
+    else:
+        steps = position - target_x_position
+
+    if (steps > 33):
+        steps = steps - 33
+    if (steps < 0):
         direction = Adafruit_MotorHAT.BACKWARD
-        left_steps = steps
     else:
         direction = Adafruit_MotorHAT.FORWARD
-        right_steps = steps
+    steps = abs(steps)
     print("STEPS: " + str(steps))
     print("TARGET LOCATION: " + str(target_x_position))
     return direction,steps
@@ -124,8 +127,6 @@ def disablePrint():
 # Activamos de nuevo
 def enablePrint():
     sys.stdout = sys.__stdout__
-
-
 
 def vacuum_cleaner():
     # Liberamos la cámara y cerramos las ventanas
