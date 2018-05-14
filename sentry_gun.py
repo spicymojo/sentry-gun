@@ -100,48 +100,36 @@ def motor_test():
     motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
     motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
 
-def move_motor2(x_axis, y_axis):
+def move_motor(target_x_position, direction):
     global pan_motor_position
-    # La lente de la cámara, 60 grados, equivale a 33 pasos del motor
-    move_direction, motor_steps = define_base_movement(x_axis)
-    disablePrint()
-
-    while (motor_steps > 0):
-        motor_x_axis.step(1, move_direction, Adafruit_MotorHAT.SINGLE)
-        motor_steps = motor_steps - 1
-    enablePrint()
-
-def move_motor(target_x_position):
-    global pan_motor_position
-    steps_to_target = abs(abs(pan_motor_position) - target_x_position)
 
     print(" MOTOR LOCATION  : [" + str(pan_motor_position) + "]")
     print(" TARGET LOCATION : [" + str(target_x_position) + "]")
-    print("    STEPS : [" + str(steps_to_target) + "]")
-
-    if steps_to_target > 16:  # Se mueve a la derecha
-        direction = Adafruit_MotorHAT.FORWARD
-    elif steps_to_target <= 16:
-        direction = Adafruit_MotorHAT.BACKWARD
+    steps_number = target_x_position-pan_motor_position
+    print("     STEPS: " + str(steps_number))
 
     disablePrint()
-    motor_x_axis.step(steps_to_target, direction, Adafruit_MotorHAT.DOUBLE)
-    #if (str(direction) == "Adafruit_MotorHAT.FORWARD"):
-    #    pan_motor_position = pan_motor_position + steps_to_target
-    #else:
-    #    pan_motor_position = pan_motor_position - steps_to_target
+    motor_x_axis.step(abs(steps_number), direction, Adafruit_MotorHAT.INTERLEAVE)
     enablePrint()
-    pan_motor_position = steps_to_target
-    print("NEW MOTOR POSITION: " + str(pan_motor_position))
+    pan_motor_position = pan_motor_position + steps_number
 
 def calculate_moves(center_x, center_y):
-   global pan_thread
+   global pan_thread, pan_motor_position, steps_to_target
 
-   if not pan_thread.isAlive():
-       # La lente de la cámara, 60 grados, equivale a 33 pasos del motor
-       target_x_position = (center_x / 15) + 17 # (Pixels / pixels per step)
-       pan_thread = threading.Thread(target=move_motor(target_x_position))
-       pan_thread.start()
+   # La lente de la cámara, 60 grados, equivale a 33 pasos del motor
+   target_x_position = (center_x / 15) # (Pixels / pixels per step)
+   steps_to_target = target_x_position - pan_motor_position
+
+   if steps_to_target < 0:
+     #pan_motor_position += 1
+     direction = Adafruit_MotorHAT.FORWARD
+     pan_thread = threading.Thread(target=move_motor(target_x_position, direction))
+   elif steps_to_target >= 0:
+     #pan_motor_position -= 1
+     direction = Adafruit_MotorHAT.BACKWARD
+     pan_thread = threading.Thread(target=move_motor(target_x_position, direction))
+
+   pan_thread.start()
        #pan_thread.join()
 
    #pan_thread.start()
