@@ -8,11 +8,10 @@
   },
   "MOTOR": {
     "MOTOR_REVS": 200,
-    "TESTING_STEPS": 25,
-    "MAXIMUM_RIGHT_STEPS" : 17,
-    "MAXIMUM_LEFT_STEPS" : 16
+    "TESTING_STEPS": 18
   },
   "DEBUG": {
-
+    "TEST_BASE_MOTOR" : "True",
+    "PRINT_MOVEMENT_VALUES": "False"
   }
 }

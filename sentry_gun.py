@@ -28,7 +28,7 @@ import sys, os
 
 # Fuente para la interfaz
 message_font = cv2.FONT_HERSHEY_PLAIN
-pan_motor_position= 16
+pan_motor_position= 19  # Mitad de pasos que puede dar el motor
 
 # Hilos para los motores
 pan_thread = threading.Thread()
@@ -38,19 +38,24 @@ tilt_thread = threading.Thread()
 def load_config():
     config = json.load(open('config.json'))
     global minimum_target_area, frame_width, exit_key, motor_revs, \
-        motor_testing_steps, maximum_right_steps, maximum_left_steps,\
-        frame_color,center_color
+        motor_testing_steps, frame_color,center_color, test_base_motor, \
+        print_movement_values
 
+    # General config
     minimum_target_area= config['GENERAL']['MINIMUM_TARGET_AREA']
     frame_width = config['GENERAL']['FRAME_WIDTH']
     exit_key = config['GENERAL']['EXIT_KEY']
-    motor_revs = config['MOTOR']['MOTOR_REVS']
-    motor_testing_steps = config['MOTOR']['TESTING_STEPS']
-    maximum_right_steps = config['MOTOR']['MAXIMUM_RIGHT_STEPS']
-    maximum_left_steps = config['MOTOR']['MAXIMUM_LEFT_STEPS']
     frame_color = string_to_rgb(config['GENERAL']['TARGET_FRAME_COLOR'])
     center_color = string_to_rgb(config['GENERAL']['TARGET_CENTER_COLOR'])
-    maximum_right_steps = config['MOTOR']['MAXIMUM_RIGHT_STEPS']
+
+    # Motor config
+    motor_revs = config['MOTOR']['MOTOR_REVS']
+    motor_testing_steps = config['MOTOR']['TESTING_STEPS']
+
+    # Debug
+    test_base_motor = config['DEBUG']['TEST_BASE_MOTOR']
+    print_movement_values = config['DEBUG']['PRINT_MOVEMENT_VALUES']
+
 
 def string_to_rgb(rgb_string):  # OpenCV uses BGR
     b,g,r = rgb_string.split(",")
@@ -84,7 +89,6 @@ def draw_target_center(x,y,w,h):
     square_center_x = x + w / 2
     square_center_y = y + h / 2
     cv2.circle(frame, (square_center_x, square_center_y), 5, center_color, -1)
-    # pan_thread = threading.Thread(target=calculate_moves(abs(steps_to_target), direction))
     calculate_moves(square_center_x,square_center_y)
 
 def print_date_on_video():
@@ -97,48 +101,52 @@ def print_date_on_video():
 def motor_test():
     # Probamos el motor de la base
     print(" [TEST] Probando el motor de la base")
-    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
-    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
+    disablePrint()
+    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.INTERLEAVE)
+    time.sleep(0.5)
+    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.INTERLEAVE)
+    enablePrint()
 
-def move_motor(target_x_position, direction):
+def move_motor(steps_to_target, direction):
     global pan_motor_position
 
-    print(" MOTOR LOCATION  : [" + str(pan_motor_position) + "]")
-    print(" TARGET LOCATION : [" + str(target_x_position) + "]")
-    steps_number = target_x_position-pan_motor_position
-    print("     STEPS: " + str(steps_number))
+    if print_movement_values == "True":
+        print(" MOTOR LOCATION  : [" + str(pan_motor_position) + "]")
+        print(" TARGET LOCATION : [" + str(target_x_position) + "]")
+        print("     STEPS: " + str(steps_to_target))
 
     disablePrint()
-    motor_x_axis.step(abs(steps_number), direction, Adafruit_MotorHAT.INTERLEAVE)
+    motor_x_axis.step(abs(steps_to_target), direction, Adafruit_MotorHAT.INTERLEAVE)
     enablePrint()
-    pan_motor_position = pan_motor_position + steps_number
+    pan_motor_position = pan_motor_position + steps_to_target
 
 def calculate_moves(center_x, center_y):
    global pan_thread, pan_motor_position, steps_to_target
 
-   # La lente de la cámara, 60 grados, equivale a 33 pasos del motor
+   # Apertura cámara: 60 grados. Equivale a 38 pasos del motor
    target_x_position = (center_x / 15) # (Pixels / pixels per step)
    steps_to_target = target_x_position - pan_motor_position
 
    if steps_to_target < 0:
-     #pan_motor_position += 1
      direction = Adafruit_MotorHAT.FORWARD
-     pan_thread = threading.Thread(target=move_motor(target_x_position, direction))
+     pan_thread = threading.Thread(target=move_motor(steps_to_target, direction))
    elif steps_to_target >= 0:
-     #pan_motor_position -= 1
      direction = Adafruit_MotorHAT.BACKWARD
-     pan_thread = threading.Thread(target=move_motor(target_x_position, direction))
+     pan_thread = threading.Thread(target=move_motor(steps_to_target, direction))
 
    pan_thread.start()
-       #pan_thread.join()
+   #pan_thread.join()
 
-   #pan_thread.start()
+def back_to_center():
+    global pan_motor_position
+    calculate_moves(275,0)
+    time.sleep(0.5)
+    print(" [INFO] Colocado motor en posición inicial")
 
-
+# Desactivamos los prints de la libreria de los motores
 def disablePrint():
     sys.stdout = open(os.devnull, 'w')
 
-# Activamos de nuevo
 def enablePrint():
     sys.stdout = sys.__stdout__
 
@@ -151,8 +159,8 @@ def vacuum_cleaner():
 
 ###### FIN DE FUNCIONES #####
 
-# Cargamos la configuración del archivo JSON
-load_config()
+load_config()   # Cargamos el fichero "config.json"
+
 # Empezamos a capturar la webcam
 print("[START] Preparando cámara....")
 camera_recording = False
@@ -175,7 +183,9 @@ print("[INFO] Inicializamos los motores...")
 mh = Adafruit_MotorHAT(addr = 0x60)
 motor_x_axis = mh.getStepper(motor_revs,1)
 motor_y_axis = mh.getStepper(motor_revs,2)
-#motor_test()
+if test_base_motor == "True":
+    motor_test()
+    print (" [TEST] Realizado movimiento en base")
 
 # Loop sobre la camara
 while True:
@@ -192,7 +202,7 @@ while True:
     # Si no hay primer frame, lo inicializamos
     if firstFrame is None:
         if actualFrame is None:
-            print(" [INFO] Empezando captura de vídeo... ")
+            print("[INFO] Empezando captura de vídeo... ")
             actualFrame = gray
             continue
         else:
@@ -204,7 +214,7 @@ while True:
             thresh = cv2.dilate(thresh, None, iterations=2)
 
             if count > 30:
-                print(" [INFO] Esperando movimiento...")
+                print("[INFO] Esperando movimiento...")
                 if not cv2.countNonZero(thresh) > 0:
                     firstFrame = gray
                 else:
@@ -241,8 +251,9 @@ while True:
     key = cv2.waitKey(1) & 0xFF
     # Q = Salir del programa
     if key == ord(exit_key):
-        print("[END] Apagando el sistema...")
+        print(" [INFO] Apagando el sistema...")
         break
 
-# Limpiamos todo
+# Liberamos recursos, cerramos ventanas y colocamos el motor
+back_to_center()
 vacuum_cleaner()
