@@ -19,12 +19,20 @@ from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_StepperMotor
 # Lectura de configuración
 import json
 
+# Multihilo para los motores
+import thread
+import threading
+
 # Librerias para evitar que los driver del motor impriman por consola
 import sys, os
 
 # Fuente para la interfaz
 message_font = cv2.FONT_HERSHEY_PLAIN
-position= 16
+pan_motor_position= 16
+
+# Hilos para los motores
+pan_thread = threading.Thread()
+tilt_thread = threading.Thread()
 
 ##### FUNCIONES #####
 def load_config():
@@ -76,7 +84,8 @@ def draw_target_center(x,y,w,h):
     square_center_x = x + w / 2
     square_center_y = y + h / 2
     cv2.circle(frame, (square_center_x, square_center_y), 5, center_color, -1)
-    make_movement(square_center_x,square_center_y)
+    # pan_thread = threading.Thread(target=calculate_moves(abs(steps_to_target), direction))
+    calculate_moves(square_center_x,square_center_y)
 
 def print_date_on_video():
     # Imprimimos el texto y la fecha en la ventana
@@ -91,8 +100,8 @@ def motor_test():
     motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
     motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
 
-def make_movement(x_axis, y_axis):
-    global position
+def move_motor2(x_axis, y_axis):
+    global pan_motor_position
     # La lente de la cámara, 60 grados, equivale a 33 pasos del motor
     move_direction, motor_steps = define_base_movement(x_axis)
     disablePrint()
@@ -102,24 +111,41 @@ def make_movement(x_axis, y_axis):
         motor_steps = motor_steps - 1
     enablePrint()
 
-def define_base_movement(x):
-    global position
-    target_x_position = (500 / 15) # (Pixels / pixels per step)
-    if (target_x_position > 16):
-        steps = position + target_x_position
-    else:
-        steps = position - target_x_position
+def move_motor(target_x_position):
+    global pan_motor_position
+    steps_to_target = abs(abs(pan_motor_position) - target_x_position)
 
-    if (steps > 33):
-        steps = steps - 33
-    if (steps < 0):
-        direction = Adafruit_MotorHAT.BACKWARD
-    else:
+    print(" MOTOR LOCATION  : [" + str(pan_motor_position) + "]")
+    print(" TARGET LOCATION : [" + str(target_x_position) + "]")
+    print("    STEPS : [" + str(steps_to_target) + "]")
+
+    if steps_to_target > 16:  # Se mueve a la derecha
         direction = Adafruit_MotorHAT.FORWARD
-    steps = abs(steps)
-    print("STEPS: " + str(steps))
-    print("TARGET LOCATION: " + str(target_x_position))
-    return direction,steps
+    elif steps_to_target <= 16:
+        direction = Adafruit_MotorHAT.BACKWARD
+
+    disablePrint()
+    motor_x_axis.step(steps_to_target, direction, Adafruit_MotorHAT.DOUBLE)
+    #if (str(direction) == "Adafruit_MotorHAT.FORWARD"):
+    #    pan_motor_position = pan_motor_position + steps_to_target
+    #else:
+    #    pan_motor_position = pan_motor_position - steps_to_target
+    enablePrint()
+    pan_motor_position = steps_to_target
+    print("NEW MOTOR POSITION: " + str(pan_motor_position))
+
+def calculate_moves(center_x, center_y):
+   global pan_thread
+
+   if not pan_thread.isAlive():
+       # La lente de la cámara, 60 grados, equivale a 33 pasos del motor
+       target_x_position = (center_x / 15) + 17 # (Pixels / pixels per step)
+       pan_thread = threading.Thread(target=move_motor(target_x_position))
+       pan_thread.start()
+       #pan_thread.join()
+
+   #pan_thread.start()
+
 
 def disablePrint():
     sys.stdout = open(os.devnull, 'w')
