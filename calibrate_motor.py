@@ -46,10 +46,10 @@ try:
             break
         elif char == curses.KEY_RIGHT:
             screen.addstr(0, 0, 'Moviendo a derecha...')
-            make_movement(Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.INTERLEAVE)
+            make_movement(Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
         elif char == curses.KEY_LEFT:
             screen.addstr(0, 0, 'Moviendo a izquierda...')
-            make_movement(Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.INTERLEAVE)
+            make_movement(Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
 
 finally:
     curses.nocbreak();

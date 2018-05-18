@@ -102,9 +102,11 @@ def motor_test():
     # Probamos el motor de la base
     print(" [TEST] Probando el motor de la base")
     disablePrint()
-    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.INTERLEAVE)
+    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
     time.sleep(0.5)
-    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.INTERLEAVE)
+    motor_x_axis.step(motor_testing_steps*2, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
+    time.sleep(0.5)
+    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLEq)
     enablePrint()
 
 def move_motor(steps_to_target, direction):
@@ -116,7 +118,7 @@ def move_motor(steps_to_target, direction):
         print("     STEPS: " + str(steps_to_target))
 
     disablePrint()
-    motor_x_axis.step(abs(steps_to_target), direction, Adafruit_MotorHAT.INTERLEAVE)
+    motor_x_axis.step(abs(steps_to_target), direction, Adafruit_MotorHAT.DOUBLE)
     enablePrint()
     pan_motor_position = pan_motor_position + steps_to_target
 
