@@ -4,7 +4,7 @@
 Para descargar este proyecto bastará con clonar el repositorio
 ```sh
 $ git clone https://github.com/mrivaj/sentry-gun
-$ cd sentry gun
+$ cd sentry-gun
 ```
 
 ### 2. Comprobaciones
