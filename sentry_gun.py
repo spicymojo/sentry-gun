@@ -60,7 +60,7 @@ def load_config():
 def string_to_rgb(rgb_string):  # OpenCV uses BGR
     b,g,r = rgb_string.split(",")
     return (int(b),int(g),int(r))
-    
+
 def find_best_target():
     image, borders, h = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     big_area = 5000
@@ -72,8 +72,9 @@ def find_best_target():
             best_contour = b
     return best_contour
 
+
 def draw_contour(contour):
-    # Calcular el cuadrado, dibujarlo y actualizar el texto
+    # Calculamos las dimensiones del rectángulo
     (x, y, w, h) = cv2.boundingRect(contour)
 
     # Dibujamos el centro del cuadrado, es decir, el objetivo
@@ -104,17 +105,21 @@ def motor_test():
     disablePrint()
     motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
     time.sleep(0.5)
-    motor_x_axis.step(motor_testing_steps*2, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
+    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
     time.sleep(0.5)
-    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLEq)
-    enablePrint()
+    #print(" [TEST] Probando el motor del soporte")
+    #disablePrint()
+    #motor_y_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
+    #time.sleep(0.5)
+    #motor_y_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
+    #time.sleep(0.5)
 
 def move_motor(steps_to_target, direction):
     global pan_motor_position
 
     if print_movement_values == "True":
         print(" MOTOR LOCATION  : [" + str(pan_motor_position) + "]")
-        print(" TARGET LOCATION : [" + str(target_x_position) + "]")
+        print(" TARGET LOCATION : [" + str(steps_to_target + pan_motor_position) + "]")
         print("     STEPS: " + str(steps_to_target))
 
     disablePrint()
