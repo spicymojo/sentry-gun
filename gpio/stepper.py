@@ -19,7 +19,7 @@ class Stepper:
         coil_1_pin_2 = port2
         coil_2_pin_1 = port3
         coil_2_pin_2 = port4
-        self.pasos = 0
+        self.position = 0
         self.set_gpio_out()
 
     def set_gpio_out(self):
@@ -54,7 +54,7 @@ class Stepper:
             self.do_step(1, 0, 0, 1)
             #print("M4")
             time.sleep(delay)
-		
+
 
     def move_backwards(self, steps):
         steps = steps * 4

@@ -1,0 +1,17 @@
+{
+  "GENERAL": {
+    "FRAME_WIDTH": 500,
+    "MINIMUM_TARGET_AREA": 500,
+    "EXIT_KEY": "q",
+    "TARGET_FRAME_COLOR": "0,255,0",
+    "TARGET_CENTER_COLOR": "0,0,255"
+  },
+  "MOTOR": {
+    "MOTOR_REVS": 200,
+    "TESTING_STEPS": 18
+  },
+  "DEBUG": {
+    "TEST_BASE_MOTOR" : "False",
+    "PRINT_MOVEMENT_VALUES": "True"
+  }
+}

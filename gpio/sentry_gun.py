@@ -14,7 +14,8 @@ import imutils
 import numpy as np
 
 # Librerias para los motores
-from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_StepperMotor
+from stepper import Stepper
+import RPi.GPIO as GPIO
 
 # Lectura de configuración
 import json
@@ -29,6 +30,8 @@ import sys, os
 # Fuente para la interfaz
 message_font = cv2.FONT_HERSHEY_PLAIN
 pan_motor_position= 19  # Mitad de pasos que puede dar el motor
+FORWARD = 0
+BACKWARD = 1
 
 # Hilos para los motores
 pan_thread = threading.Thread()
@@ -102,10 +105,9 @@ def print_date_on_video():
 def motor_test():
     # Probamos el motor de la base
     print(" [TEST] Probando el motor de la base")
-    disablePrint()
-    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
+    motor_base.move_forward(motor_testing_steps)
     time.sleep(0.5)
-    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
+    motor_base.move_backwards(motor_testing_steps)
     time.sleep(0.5)
     #print(" [TEST] Probando el motor del soporte")
     #disablePrint()
@@ -122,9 +124,10 @@ def move_motor(steps_to_target, direction):
         print(" TARGET LOCATION : [" + str(steps_to_target + pan_motor_position) + "]")
         print("     STEPS: " + str(steps_to_target))
 
-    disablePrint()
-    motor_x_axis.step(abs(steps_to_target), direction, Adafruit_MotorHAT.DOUBLE)
-    enablePrint()
+    if direction == FORWARD:
+        motor_base.move_forward(steps_to_target)
+    elif direction == BACKWARD:
+        motor_base.move_backwards(steps_to_target)
     pan_motor_position = pan_motor_position + steps_to_target
 
 def calculate_moves(center_x, center_y):
@@ -135,30 +138,22 @@ def calculate_moves(center_x, center_y):
    steps_to_target = target_x_position - pan_motor_position
 
    if steps_to_target < 0:
-     direction = Adafruit_MotorHAT.FORWARD
-     pan_thread = threading.Thread(target=move_motor(steps_to_target, direction))
+     pan_thread = threading.Thread(target=move_motor(abs(steps_to_target), BACKWARD))
    elif steps_to_target >= 0:
-     direction = Adafruit_MotorHAT.BACKWARD
-     pan_thread = threading.Thread(target=move_motor(steps_to_target, direction))
+     pan_thread = threading.Thread(target=move_motor(abs(steps_to_target), FORWARD))
 
    pan_thread.start()
-   #pan_thread.join()
+   pan_thread.join()
 
 def back_to_center():
-    global pan_motor_position
     calculate_moves(275,0)
     time.sleep(0.5)
     print(" [INFO] Colocado motor en posición inicial")
 
-# Desactivamos los prints de la libreria de los motores
-def disablePrint():
-    sys.stdout = open(os.devnull, 'w')
-
-def enablePrint():
-    sys.stdout = sys.__stdout__
 
 def vacuum_cleaner():
     # Liberamos la cámara y cerramos las ventanas
+    GPIO.cleanup()
     camera.release()
     time.sleep(1)
     cv2.destroyAllWindows()
@@ -187,9 +182,7 @@ count = 0
 
 
 print("[INFO] Inicializamos los motores...")
-mh = Adafruit_MotorHAT(addr = 0x60)
-motor_x_axis = mh.getStepper(motor_revs,1)
-motor_y_axis = mh.getStepper(motor_revs,2)
+motor_base = Stepper(19,26,16,21)
 if test_base_motor == "True":
     motor_test()
     print (" [TEST] Realizado movimiento en base")
