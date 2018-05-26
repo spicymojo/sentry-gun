@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 
 delay = 0.0055
-steps = 200
+steps_per_revolution = 200
 coil_1_pin_1 = 0
 coil_1_pin_2 = 0
 coil_2_pin_1 = 0
@@ -28,10 +28,6 @@ class Stepper:
         GPIO.setup(coil_2_pin_1, GPIO.OUT)
         GPIO.setup(coil_2_pin_2, GPIO.OUT)
 
-    def get_gpio_ports(self):
-        return "[" + str(coil_1_pin_1) + "," + str(coil_1_pin_2) + "," \
-               + str(coil_2_pin_1) + "," + str(coil_2_pin_2) + "]"
-
     def print_data(self):
          print("Ports: " + str(coil_1_pin_1) + "," + str(coil_1_pin_2) +
             "," + str(coil_2_pin_1) + "," + str(coil_2_pin_2))
@@ -46,30 +42,25 @@ class Stepper:
     def add_steps(self,step):
         self.position += step
 
-    def move_forward(self, steps):
-        steps = steps * 2
-        for i in range(0, steps):
-            self.do_step(1,0,1,0)
-            time.sleep(delay)
-            self.do_step(0,1,1,0)
-            time.sleep(delay)
-            self.do_step(0,1,0,1)
-            time.sleep(delay)
-            self.do_step(1, 0, 0, 1)
-            time.sleep(delay)
+    def move_forward(self):
+		self.do_step(1,0,1,0)
+		time.sleep(delay)
+		self.do_step(0,1,1,0)
+		time.sleep(delay)
+		self.do_step(0,1,0,1)
+		time.sleep(delay)
+		self.do_step(1,0,0,1)
+		time.sleep(delay)
 
-
-    def move_backwards(self, steps):
-        steps = steps * 2
-        for i in range(0, steps):
-            self.do_step(1, 0, 0, 1)
-            time.sleep(delay)
-            self.do_step(0, 1, 0, 1)
-            time.sleep(delay)
-            self.do_step(0, 1, 1, 0)
-            time.sleep(delay)
-            self.do_step(1, 0, 1, 0)
-            time.sleep(delay)
+    def move_backwards(self):
+        self.do_step(1, 0, 0, 1)
+        time.sleep(delay)
+        self.do_step(1, 0, 1, 0)
+        time.sleep(delay)
+        self.do_step(0, 1, 1, 0)
+        time.sleep(delay)
+        self.do_step(0, 1, 0, 1)
+        time.sleep(delay)
         
 
 

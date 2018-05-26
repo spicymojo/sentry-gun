@@ -1,6 +1,6 @@
 from stepper import Stepper
 import sys, os, atexit, time,curses
-motor_base = Stepper(19,26,16,21)
+motor_base = Stepper(26,19,13,6)
 motor_base.print_data()
 motor_base.off()
 
@@ -17,13 +17,13 @@ try:
             break
         elif char == curses.KEY_RIGHT:
             screen.addstr(0, 0, 'Moviendo a derecha...')
-            motor_base.move_forward(1)
+            motor_base.move_forward()
         elif char == curses.KEY_LEFT:
             screen.addstr(0, 0, 'Moviendo a izquierda...')
-            motor_base.move_backwards(1)
+            motor_base.move_backwards()
         elif char == curses.KEY_DOWN:
             screen.addstr(0, 0, 'OFF...')
-            motor_base.off()
+            motor_base.move_backwards(200)
 
 
 finally:

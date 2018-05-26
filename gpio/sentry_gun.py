@@ -117,18 +117,16 @@ def motor_test():
     #time.sleep(0.5)
 
 def move_motor(steps_to_target, direction):
-    global pan_motor_position
-
     if print_movement_values == "True":
-        print(" MOTOR LOCATION  : [" + str(pan_motor_position) + "]")
-        print(" TARGET LOCATION : [" + str(steps_to_target + pan_motor_position) + "]")
+        print(" MOTOR LOCATION  : [" + str(motor_base.return_steps())  + "]")
+        print(" TARGET LOCATION : [" + str(steps_to_target + motor_base.return_steps()) + "]")
         print("     STEPS: " + str(steps_to_target))
 
     if direction == FORWARD:
         motor_base.move_forward(steps_to_target)
     elif direction == BACKWARD:
         motor_base.move_backwards(steps_to_target)
-    pan_motor_position = pan_motor_position + steps_to_target
+    motor_base.add_steps(steps_to_target)
 
 def calculate_moves(center_x, center_y):
    global pan_thread, pan_motor_position, steps_to_target
@@ -182,7 +180,7 @@ count = 0
 
 
 print("[INFO] Inicializamos los motores...")
-motor_base = Stepper(19,26,16,21)
+motor_base = Stepper(26,19,13,6)
 if test_base_motor == "True":
     motor_test()
     print (" [TEST] Realizado movimiento en base")
