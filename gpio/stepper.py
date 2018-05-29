@@ -8,8 +8,12 @@ coil_1_pin_2 = 0
 coil_2_pin_1 = 0
 coil_2_pin_2 = 0
 position = 0
+actual_step = 0
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
+
+full_step = [[1,0,1,0],[0,1,1,0],[0,1,0,1],[1,0,0,1]]
+reverse_step = [[1,0,0,1],[0,1,0,1],[0,1,1,0],[1,0,1,0]]
 
 
 class Stepper:
@@ -32,54 +36,66 @@ class Stepper:
         return "[" + str(coil_1_pin_1) + "," + str(coil_1_pin_2) + "," \
                + str(coil_2_pin_1) + "," + str(coil_2_pin_2) + "]"
 
-    def print_data(self):
-         print("Ports: " + str(coil_1_pin_1) + "," + str(coil_1_pin_2) +
-            "," + str(coil_2_pin_1) + "," + str(coil_2_pin_2))
-
-    def print_steps(self):
-        print("Pasos: " + str(self.pasos/4))
-
     @property
-    def return_steps(self):
+    # Return position, in this case, steps from center
+    def return_position(self):
         return self.position
 
-    def add_steps(self,step):
+    def update_position(self,step):
         self.position += step
+        if (self.position > 200):
+            self.position = 0
 
-    def move_forward(self, steps):
-        steps = steps * 2
-        for i in range(0, steps):
-            self.do_step(1,0,1,0)
-            time.sleep(delay)
-            self.do_step(0,1,1,0)
-            time.sleep(delay)
-            self.do_step(0,1,0,1)
-            time.sleep(delay)
-            self.do_step(1, 0, 0, 1)
-            time.sleep(delay)
+    def round_forward(self):
+        for i in range(200):
+            self.move_forward(1)
+
+    def round_backwards(self):
+        for i in range(200):
+            self.move_forward(1)
 
 
-    def move_backwards(self, steps):
-        steps = steps * 2
-        for i in range(0, steps):
-            self.do_step(1, 0, 0, 1)
+    def move_forward(self,steps):
+        global  actual_step, steps_from_center
+        for i in range(steps):
+            if actual_step == 0:
+                self.do_step(full_step[0])
+                actual_step += 1
+            elif actual_step == 1:
+                self.do_step(full_step[1])
+                actual_step += 1
+            elif actual_step == 2:
+                actual_step += 1
+                self.do_step(full_step[2])
+            elif actual_step == 3:
+                self.do_step(full_step[3])
+                actual_step = 0
+            self.update_position(1)
             time.sleep(delay)
-            self.do_step(0, 1, 0, 1)
+
+    def move_backwards(self,steps):
+        global  actual_step
+        for i in range(steps):
+            if actual_step == 0:
+                self.do_step(reverse_step[0])
+                actual_step += 1
+            elif actual_step == 1:
+                self.do_step(reverse_step[1])
+                actual_step += 1
+            elif actual_step == 2:
+                actual_step += 1
+                self.do_step(reverse_step[2])
+            elif actual_step == 3:
+                self.do_step(reverse_step[3])
+                actual_step = 0
+            self.update_position(-1)
             time.sleep(delay)
-            self.do_step(0, 1, 1, 0)
-            time.sleep(delay)
-            self.do_step(1, 0, 1, 0)
-            time.sleep(delay)
-        
 
-
-
-
-    def do_step(self, port1, port2, port3, port4):
-        GPIO.output(coil_1_pin_1, port1)
-        GPIO.output(coil_1_pin_2, port2)
-        GPIO.output(coil_2_pin_1, port3)
-        GPIO.output(coil_2_pin_2, port4)
+    def do_step(self, gpio):
+        GPIO.output(coil_1_pin_1, gpio[0])
+        GPIO.output(coil_1_pin_2, gpio[1])
+        GPIO.output(coil_2_pin_1, gpio[2])
+        GPIO.output(coil_2_pin_2, gpio[3])
 
     def off(self):
         GPIO.output(coil_1_pin_1, 0)

@@ -4,7 +4,7 @@ import time
 
 delay = 0.0055
 motor_base = Stepper(12,16,20,21)
-motor_base.print_data()
+print("Ports: " + str(motor_base.get_gpio_ports()))
 motor_base.off()
 try:
     print ("FORWARD")
