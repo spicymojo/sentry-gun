@@ -104,3 +104,4 @@ class Stepper:
         GPIO.output(coil_2_pin_2, 0)
 
 
+
