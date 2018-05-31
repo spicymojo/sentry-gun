@@ -29,8 +29,15 @@ import sys, os
 
 # Fuente para la interfaz
 message_font = cv2.FONT_HERSHEY_PLAIN
+
+# Variables utilizadas en el programa
 BACKWARD = -1
 FORWARD = 1
+
+# Variables para iterar ocn la camara
+firstFrame = None
+actualFrame = None
+count = 0
 
 # Hilos para los motores
 pan_thread = threading.Thread()
@@ -40,7 +47,7 @@ tilt_thread = threading.Thread()
 def load_config():
     config = json.load(open('config.json'))
     global minimum_target_area, frame_width, exit_key, motor_revs, \
-        motor_testing_steps, frame_color,center_color, test_base_motor, \
+        motor_testing_steps, frame_color,center_color, test_motors, \
         print_movement_values
 
     # General config
@@ -55,7 +62,7 @@ def load_config():
     motor_testing_steps = config['MOTOR']['TESTING_STEPS']
 
     # Debug
-    test_base_motor = config['DEBUG']['TEST_BASE_MOTOR']
+    test_motors = config['DEBUG']['TEST_MOTORS']
     print_movement_values = config['DEBUG']['PRINT_MOVEMENT_VALUES']
 
 
@@ -63,27 +70,25 @@ def string_to_rgb(rgb_string):  # OpenCV uses BGR
     b,g,r = rgb_string.split(",")
     return (int(b),int(g),int(r))
 
+
 def find_best_target():
     image, borders, h = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    big_area = 5000
+    minimum_target_area = 5000
     best_contour = None
     for b in borders:
         area = cv2.contourArea(b)
-        if area > big_area:
-            big_area = area
+        if area > minimum_target_area:
+            minimum_target_area = area
             best_contour = b
     return best_contour
 
 
-def draw_contour(contour):
-    # Calculamos las dimensiones del rectángulo
+def draw_targets(contour):
+    # Calculamos y dibujamos el marco y su centro
     (x, y, w, h) = cv2.boundingRect(contour)
-
-    # Dibujamos el centro del cuadrado, es decir, el objetivo
-    draw_target_center(x,y,w,h)
-
-    # Dibujamos el marco del objetivo
     cv2.rectangle(frame, (x, y), (x + w, y + h), frame_color, 2)
+    draw_target_center(x, y, w, h)
+
 
 def draw_target_center(x,y,w,h):
     # PARÄMETROS PARA DIBUJAR EL CÍRCULO
@@ -94,69 +99,89 @@ def draw_target_center(x,y,w,h):
     cv2.circle(frame, (square_center_x, square_center_y), 5, center_color, -1)
     calculate_moves(square_center_x,square_center_y)
 
-def print_date_on_video():
-    # Imprimimos el texto y la fecha en la ventana
+
+# Mostramos por pantalla el estado y la fecha
+def print_info_on_video():
     cv2.putText(frame, "Estado: {}".format(text), (10, 25),
         message_font, 1.25, center_color, 2)
     cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
         (10, frame.shape[0] - 15), message_font, 1, center_color, 1)
 
-def motor_test():
-    # Probamos el motor de la base
-    print(" [TEST] Probando el motor de la base")
-    base_motor.move_forward(motor_testing_steps)
-    time.sleep(0.5)
-    base_motor.move_backwards(motor_testing_steps)
-    time.sleep(0.5)
-    #print(" [TEST] Probando el motor del soporte")
-    #disablePrint()
-    #motor_y_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
-    #time.sleep(0.5)
-    #motor_y_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
-    #time.sleep(0.5)
 
-def move_motor(steps, direction):
+def motor_test():
+    print("  [TEST] Probando el motor de la base")
+    pan_motor.move_forward(motor_testing_steps)
+    time.sleep(0.5)
+    pan_motor.move_backwards(motor_testing_steps)
+    time.sleep(0.5)
+    print("  [TEST] Probando el motor del soporte")
+    tilt_motor.move_forward(motor_testing_steps)
+    time.sleep(0.5)
+    tilt_motor.move_backwards(motor_testing_steps)
+    time.sleep(0.5)
+
+
+def move_motor(motor, steps, direction):
     if print_movement_values == "True":
-        print(" MOTOR LOCATION  : [" + str(base_motor.get_position())  + "]")
-        print("     STEPS: " + str(steps))
-        if direction == FORWARD:
-            print(" DIRECTION : FORWARD")
-            base_motor.move_forward(steps)
+        print("\n" + "MOTOR: " + motor.get_name() + ". LOCATION  : [" + str(motor.get_position())  + "]. STEPS: " + str(steps))
+
+    # Movemos motores
+    if direction == FORWARD:
+        if motor.get_name() == "BASE":
+            motor.move_forward(steps)
+            print("   --->")
         else:
-            print(" DIRECTION : BACKWARD")
-            base_motor.move_backwards(steps)
+            motor.move_backwards(steps)
+            print(" UP ")
+    else:
+        if motor.get_name() == "BASE":
+            motor.move_backwards(steps)
+            print("   <---")
+        else:
+            motor.move_forward(steps)
+            print(" DOWN ")
+
 
 
 def calculate_moves(center_x, center_y):
-   global pan_thread
 
    # Apertura cámara: 60 grados. Equivale a 38 pasos del motor
    target_x_position = (center_x / 15) - 17 # (Pixels / pixels per step) - pasos maximos
-   #move_motor(target_x_position)
-   #pan_thread = threading.Thread(target=move_motor(target_x_position))
+   target_y_position = (center_y / 15) - 17
 
-   steps_to_target = target_x_position - base_motor.get_position()
+   steps_to_target_in_x = target_x_position - pan_motor.get_position()
+   steps_to_target_in_y = target_y_position - tilt_motor.get_position()
 
-    # Steps == 0, nada que hacer
-   if steps_to_target < 0:
-     pan_thread = threading.Thread(target=move_motor(abs(steps_to_target), BACKWARD))
-   else:
-     pan_thread = threading.Thread(target=move_motor(abs(steps_to_target), FORWARD))
-
-   pan_thread.start()
+   launch_threads(steps_to_target_in_x, steps_to_target_in_y)
    #pan_thread.join()
 
 
-## LIMPIEZA ##
+def launch_threads(steps_to_target_in_x,steps_to_target_in_y):
+    global pan_thread,tilt_thread
+    if steps_to_target_in_x < 0:
+        pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), BACKWARD))
+    else:
+        pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), FORWARD))
+
+    if steps_to_target_in_y < 0:
+        tilt_thread = threading.Thread(target=move_motor(tilt_motor, abs(steps_to_target_in_y), BACKWARD))
+    else:
+        tilt_thread = threading.Thread(target=move_motor(tilt_motor, abs(steps_to_target_in_y), FORWARD))
+
+    pan_thread.start()
+    #tilt_thread.start()
+
+    #pan_thread.join()
+    #tilt_thread.join()
+##### LIMPIEZA #####
 
 def back_to_center():
-    calculate_moves(275,0)
+    calculate_moves(250,250)
     time.sleep(0.5)
-    print(" [INFO] Colocado motor en posición inicial")
+    print(" [INFO] Colocados motores en posición inicial")
 
-
+# Liberamos cámara, GPIO y cerramos ventanas
 def vacuum_cleaner():
-    # Liberamos la cámara y cerramos las ventanas
     GPIO.cleanup()
     camera.release()
     time.sleep(1)
@@ -165,9 +190,9 @@ def vacuum_cleaner():
 
 ###### FIN DE FUNCIONES #####
 
-load_config()   # Cargamos el fichero "config.json"
+load_config()   # Cargamos "config.json"
 
-# Empezamos a capturar la webcam
+# Capturamos webcam
 print("[START] Preparando cámara....")
 camera_recording = False
 
@@ -179,18 +204,16 @@ while camera_recording is not True:
     camera_recording, _ = camera.read()
 print("[DONE] Cámara lista!")
 
-# Inicializamos variables para iterar con la cámara
-firstFrame = None
-actualFrame = None
-count = 0
-
 
 print("[INFO] Inicializamos los motores...")
-base_motor = Stepper(12,16,20,21)
-print(" PUERTOS MOTOR BASE: " + base_motor.get_gpio_ports())
-if test_base_motor == "True":
+pan_motor = Stepper("BASE", 12,16,20,21)
+tilt_motor = Stepper("SOPORTE",18,23,24,25)
+print(pan_motor.get_name()  + "    PUERTOS: " + pan_motor.get_gpio_ports())
+print(tilt_motor.get_name() + "    PUERTOS: " + tilt_motor.get_gpio_ports())
+
+
+if test_motors == "True":
     motor_test()
-    print (" [TEST] Realizado movimiento en base")
 
 # Loop sobre la camara
 while True:
@@ -241,11 +264,11 @@ while True:
 
     # Bucle sobre los contornos
     if best_contour is not None:
-        draw_contour(best_contour)
+        draw_targets(best_contour)
         text = "Objetivo detectado!"
 
     # Mostramos la fecha y hora en el livestream
-    print_date_on_video()
+    print_info_on_video()
 
     # Mostramos las diferentes vistas de la cámara
     cv2.imshow("Cámara", frame)

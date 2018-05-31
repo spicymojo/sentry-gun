@@ -11,7 +11,7 @@
     "TESTING_STEPS": 18
   },
   "DEBUG": {
-    "TEST_BASE_MOTOR" : "False",
+    "TEST_MOTORS" : "False",
     "PRINT_MOVEMENT_VALUES": "True"
   }
 }
