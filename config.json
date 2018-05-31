@@ -12,6 +12,6 @@
   },
   "DEBUG": {
     "TEST_BASE_MOTOR" : "False",
-    "PRINT_MOVEMENT_VALUES": "False"
+    "PRINT_MOVEMENT_VALUES": "True"
   }
 }

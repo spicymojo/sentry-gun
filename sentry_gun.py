@@ -14,7 +14,8 @@ import imutils
 import numpy as np
 
 # Librerias para los motores
-from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_StepperMotor
+from stepper import Stepper
+import RPi.GPIO as GPIO
 
 # Lectura de configuración
 import json
@@ -28,7 +29,8 @@ import sys, os
 
 # Fuente para la interfaz
 message_font = cv2.FONT_HERSHEY_PLAIN
-pan_motor_position= 19  # Mitad de pasos que puede dar el motor
+BACKWARD = -1
+FORWARD = 1
 
 # Hilos para los motores
 pan_thread = threading.Thread()
@@ -102,10 +104,9 @@ def print_date_on_video():
 def motor_test():
     # Probamos el motor de la base
     print(" [TEST] Probando el motor de la base")
-    disablePrint()
-    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
+    base_motor.move_forward(motor_testing_steps)
     time.sleep(0.5)
-    motor_x_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
+    base_motor.move_backwards(motor_testing_steps)
     time.sleep(0.5)
     #print(" [TEST] Probando el motor del soporte")
     #disablePrint()
@@ -114,51 +115,49 @@ def motor_test():
     #motor_y_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
     #time.sleep(0.5)
 
-def move_motor(steps_to_target, direction):
-    global pan_motor_position
-
+def move_motor(steps, direction):
     if print_movement_values == "True":
-        print(" MOTOR LOCATION  : [" + str(pan_motor_position) + "]")
-        print(" TARGET LOCATION : [" + str(steps_to_target + pan_motor_position) + "]")
-        print("     STEPS: " + str(steps_to_target))
+        print(" MOTOR LOCATION  : [" + str(base_motor.get_position())  + "]")
+        print("     STEPS: " + str(steps))
+        if direction == FORWARD:
+            print(" DIRECTION : FORWARD")
+            base_motor.move_forward(steps)
+        else:
+            print(" DIRECTION : BACKWARD")
+            base_motor.move_backwards(steps)
 
-    disablePrint()
-    motor_x_axis.step(abs(steps_to_target), direction, Adafruit_MotorHAT.DOUBLE)
-    enablePrint()
-    pan_motor_position = pan_motor_position + steps_to_target
 
 def calculate_moves(center_x, center_y):
-   global pan_thread, pan_motor_position, steps_to_target
+   global pan_thread
 
    # Apertura cámara: 60 grados. Equivale a 38 pasos del motor
-   target_x_position = (center_x / 15) # (Pixels / pixels per step)
-   steps_to_target = target_x_position - pan_motor_position
+   target_x_position = (center_x / 15) - 17 # (Pixels / pixels per step) - pasos maximos
+   #move_motor(target_x_position)
+   #pan_thread = threading.Thread(target=move_motor(target_x_position))
 
+   steps_to_target = target_x_position - base_motor.get_position()
+
+    # Steps == 0, nada que hacer
    if steps_to_target < 0:
-     direction = Adafruit_MotorHAT.FORWARD
-     pan_thread = threading.Thread(target=move_motor(steps_to_target, direction))
-   elif steps_to_target >= 0:
-     direction = Adafruit_MotorHAT.BACKWARD
-     pan_thread = threading.Thread(target=move_motor(steps_to_target, direction))
+     pan_thread = threading.Thread(target=move_motor(abs(steps_to_target), BACKWARD))
+   else:
+     pan_thread = threading.Thread(target=move_motor(abs(steps_to_target), FORWARD))
 
    pan_thread.start()
    #pan_thread.join()
 
+
+## LIMPIEZA ##
+
 def back_to_center():
-    global pan_motor_position
     calculate_moves(275,0)
     time.sleep(0.5)
     print(" [INFO] Colocado motor en posición inicial")
 
-# Desactivamos los prints de la libreria de los motores
-def disablePrint():
-    sys.stdout = open(os.devnull, 'w')
-
-def enablePrint():
-    sys.stdout = sys.__stdout__
 
 def vacuum_cleaner():
     # Liberamos la cámara y cerramos las ventanas
+    GPIO.cleanup()
     camera.release()
     time.sleep(1)
     cv2.destroyAllWindows()
@@ -187,9 +186,8 @@ count = 0
 
 
 print("[INFO] Inicializamos los motores...")
-mh = Adafruit_MotorHAT(addr = 0x60)
-motor_x_axis = mh.getStepper(motor_revs,1)
-motor_y_axis = mh.getStepper(motor_revs,2)
+base_motor = Stepper(12,16,20,21)
+print(" PUERTOS MOTOR BASE: " + base_motor.get_gpio_ports())
 if test_base_motor == "True":
     motor_test()
     print (" [TEST] Realizado movimiento en base")
