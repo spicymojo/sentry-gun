@@ -29,9 +29,8 @@ import sys, os
 
 # Fuente para la interfaz
 message_font = cv2.FONT_HERSHEY_PLAIN
-pan_motor_position= 19  # Mitad de pasos que puede dar el motor
-FORWARD = 0
-BACKWARD = 1
+BACKWARD = -1
+FORWARD = 1
 
 # Hilos para los motores
 pan_thread = threading.Thread()
@@ -105,9 +104,9 @@ def print_date_on_video():
 def motor_test():
     # Probamos el motor de la base
     print(" [TEST] Probando el motor de la base")
-    motor_base.move_forward(motor_testing_steps)
+    base_motor.move_forward(motor_testing_steps)
     time.sleep(0.5)
-    motor_base.move_backwards(motor_testing_steps)
+    base_motor.move_backwards(motor_testing_steps)
     time.sleep(0.5)
     #print(" [TEST] Probando el motor del soporte")
     #disablePrint()
@@ -116,32 +115,39 @@ def motor_test():
     #motor_y_axis.step(motor_testing_steps, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
     #time.sleep(0.5)
 
-def move_motor(steps_to_target, direction):
+def move_motor(steps, direction):
     if print_movement_values == "True":
-        print(" MOTOR LOCATION  : [" + str(motor_base.return_steps())  + "]")
-        print(" TARGET LOCATION : [" + str(steps_to_target + motor_base.return_steps()) + "]")
-        print("     STEPS: " + str(steps_to_target))
+        print(" MOTOR LOCATION  : [" + str(base_motor.get_position())  + "]")
+        print("     STEPS: " + str(steps))
+        if direction == FORWARD:
+            print(" DIRECTION : FORWARD")
+            base_motor.move_forward(steps)
+        else:
+            print(" DIRECTION : BACKWARD")
+            base_motor.move_backwards(steps)
 
-    if direction == FORWARD:
-        motor_base.move_forward(steps_to_target)
-    elif direction == BACKWARD:
-        motor_base.move_backwards(steps_to_target)
-    motor_base.add_steps(steps_to_target)
 
 def calculate_moves(center_x, center_y):
-   global pan_thread, pan_motor_position, steps_to_target
+   global pan_thread
 
    # Apertura cámara: 60 grados. Equivale a 38 pasos del motor
-   target_x_position = (center_x / 15) # (Pixels / pixels per step)
-   steps_to_target = target_x_position - pan_motor_position
+   target_x_position = (center_x / 15) - 17 # (Pixels / pixels per step) - pasos maximos
+   #move_motor(target_x_position)
+   #pan_thread = threading.Thread(target=move_motor(target_x_position))
 
+   steps_to_target = target_x_position - base_motor.get_position()
+
+    # Steps == 0, nada que hacer
    if steps_to_target < 0:
      pan_thread = threading.Thread(target=move_motor(abs(steps_to_target), BACKWARD))
-   elif steps_to_target >= 0:
+   else:
      pan_thread = threading.Thread(target=move_motor(abs(steps_to_target), FORWARD))
 
    pan_thread.start()
-   pan_thread.join()
+   #pan_thread.join()
+
+
+## LIMPIEZA ##
 
 def back_to_center():
     calculate_moves(275,0)
@@ -180,7 +186,8 @@ count = 0
 
 
 print("[INFO] Inicializamos los motores...")
-motor_base = Stepper(26,19,13,6)
+base_motor = Stepper(12,16,20,21)
+print(" PUERTOS MOTOR BASE: " + base_motor.get_gpio_ports())
 if test_base_motor == "True":
     motor_test()
     print (" [TEST] Realizado movimiento en base")

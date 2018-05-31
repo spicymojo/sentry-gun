@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
-delay = 0.0055
+delay = 0.05
 steps = 200
 coil_1_pin_1 = 0
 coil_1_pin_2 = 0
@@ -36,14 +36,13 @@ class Stepper:
         return "[" + str(coil_1_pin_1) + "," + str(coil_1_pin_2) + "," \
                + str(coil_2_pin_1) + "," + str(coil_2_pin_2) + "]"
 
-    @property
-    # Return position, in this case, steps from center
-    def return_position(self):
+    # Steps from center
+    def get_position(self):
         return self.position
 
     def update_position(self,step):
         self.position += step
-        if (self.position > 200):
+        if (self.position >= 100 or self.position <= -100):
             self.position = 0
 
     def round_forward(self):
