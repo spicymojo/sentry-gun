@@ -7,15 +7,7 @@
     <bookmark url="file://$PROJECT_DIR$/gpio/gpio_calibrate.py" line="2" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6417024-6c1d-4851-a0bd-3dfeada9d836" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calibrate_pan.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/calibrate_tilt.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sentry_gun.py" beforeDir="false" afterPath="$PROJECT_DIR$/sentry_gun.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stepper.py" beforeDir="false" afterPath="$PROJECT_DIR$/stepper.py" afterDir="false" />
-    </list>
+    <list default="true" id="c6417024-6c1d-4851-a0bd-3dfeada9d836" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,36 +16,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="stepper.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/stepper.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="100" column="25" selection-start-line="100" selection-start-column="25" selection-end-line="100" selection-end-column="25" />
-              <folding>
-                <element signature="e#0#23#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf>
       <file leaf-file-name="sentry_gun.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sentry_gun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="141" column="25" selection-start-line="141" selection-start-column="25" selection-end-line="141" selection-end-column="25" />
-              <folding>
-                <element signature="e#1792#1855#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="13" column="16" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="16" />
+            <state relative-caret-position="258">
+              <caret line="149" column="43" selection-start-line="149" selection-start-column="43" selection-end-line="149" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -271,11 +239,11 @@
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="13" sideWeight="0.5052083" side_tool="true" visible="true" weight="0.32965517" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="13" sideWeight="0.5078125" side_tool="true" visible="true" weight="0.32965517" />
       <window_info anchor="right" x="0" y="0" width="337" height="638" id="Documentation" order="5" side_tool="true" visible="true" weight="0.16666667" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Python Console" order="9" sideWeight="0.49479166" visible="true" weight="0.32965517" />
+      <window_info anchor="bottom" id="Python Console" order="9" sideWeight="0.4921875" visible="true" weight="0.32965517" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info content_ui="combo" id="Project" order="0" weight="0.32724902" />
@@ -314,9 +282,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/gpio.py" />
-    <entry file="file://$PROJECT_DIR$/calibrate_with_camera.py" />
-    <entry file="file://$PROJECT_DIR$/tests/adafruit_motor_test/StepperTest.py" />
     <entry file="file://$PROJECT_DIR$/calibrate_motor.py" />
     <entry file="file://$PROJECT_DIR$/tests/cal.py" />
     <entry file="file://$PROJECT_DIR$/tests/adafruit_stepper_example.py" />
@@ -352,8 +317,8 @@
     <entry file="file://$PROJECT_DIR$/tests/motor_test.py" />
     <entry file="file://$PROJECT_DIR$/calibrate_motors.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="52" column="84" selection-start-line="52" selection-start-column="83" selection-end-line="52" selection-end-column="84" />
+        <state relative-caret-position="34">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
@@ -376,8 +341,8 @@
     <entry file="file://$PROJECT_DIR$/sentry_gun.py___jb_tmp___" />
     <entry file="file://$PROJECT_DIR$/config.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="16" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="16" />
+        <state relative-caret-position="102">
+          <caret line="6" column="36" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="36" />
         </state>
       </provider>
     </entry>
@@ -385,19 +350,27 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="319">
           <caret line="100" column="25" selection-start-line="100" selection-start-column="25" selection-end-line="100" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/range_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="32" selection-start-line="13" selection-start-column="32" selection-end-line="13" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/calibrate/calibrate_pan.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="29" selection-start-line="29" selection-end-line="33" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sentry_gun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="141" column="25" selection-start-line="141" selection-start-column="25" selection-end-line="141" selection-end-column="25" />
-          <folding>
-            <element signature="e#1792#1855#0" />
-          </folding>
+        <state relative-caret-position="258">
+          <caret line="149" column="43" selection-start-line="149" selection-start-column="43" selection-end-line="149" selection-end-column="43" />
         </state>
       </provider>
     </entry>
