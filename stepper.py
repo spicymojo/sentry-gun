@@ -2,7 +2,6 @@ import RPi.GPIO as GPIO
 import time
 
 delay = 0.05
-steps = 200
 actual_step = 0
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
