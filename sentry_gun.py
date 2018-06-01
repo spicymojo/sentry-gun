@@ -146,37 +146,37 @@ def move_motor(motor, steps, direction):
 def calculate_moves(center_x, center_y):
 
    # Apertura cámara: 60 grados. Equivale a 38 pasos del motor
-   #target_x_position = (center_x / 18) - 19 # (Pixels / pixels per step) - pasos maximos
-   target_y_position = (center_y / 15) - 16
+   target_x_position = (center_x / 18) - 19 # (Pixels / pixels per step) - pasos maximos
+   #target_y_position = (center_y / 15) - 16
 
-   #steps_to_target_in_x = target_x_position - pan_motor.get_position()
-   steps_to_target_in_y = target_y_position + tilt_motor.get_position()
+   steps_to_target_in_x = target_x_position - pan_motor.get_position()
+   #steps_to_target_in_y = target_y_position + tilt_motor.get_position()
 
-   launch_threads(0,steps_to_target_in_y)
+   launch_threads(steps_to_target_in_x,0)
    #pan_thread.join()
 
 
 def launch_threads(steps_to_target_in_x,steps_to_target_in_y):
     global pan_thread,tilt_thread
-    #if steps_to_target_in_x < 0:
-    #    pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), BACKWARD))
-    #else:
-    #    pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), FORWARD))
-
-    if steps_to_target_in_y > 0:
-        tilt_thread = threading.Thread(target=move_motor(tilt_motor, abs(steps_to_target_in_y), BACKWARD))
+    if steps_to_target_in_x < 0:
+        pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), BACKWARD))
     else:
-        tilt_thread = threading.Thread(target=move_motor(tilt_motor, abs(steps_to_target_in_y), FORWARD))
+        pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), FORWARD))
 
-    #pan_thread.start()
-    tilt_thread.start()
+    #if steps_to_target_in_y > 0:
+    #    tilt_thread = threading.Thread(target=move_motor(tilt_motor, abs(steps_to_target_in_y), BACKWARD))
+    #else:
+    #    tilt_thread = threading.Thread(target=move_motor(tilt_motor, abs(steps_to_target_in_y), FORWARD))
+
+    pan_thread.start()
+    #tilt_thread.start()
 
     #pan_thread.join()
     #tilt_thread.join()
 ##### LIMPIEZA #####
 
 def back_to_center():
-    calculate_moves(250,250)
+    calculate_moves(320,240)
     time.sleep(0.5)
     print(" [INFO] Colocados motores en posición inicial")
 
