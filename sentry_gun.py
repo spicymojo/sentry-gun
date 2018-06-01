@@ -146,7 +146,7 @@ def move_motor(motor, steps, direction):
 def calculate_moves(center_x, center_y):
 
    # Apertura cámara: 60 grados. Equivale a 38 pasos del motor
-   target_x_position = (center_x / 18) - 19 # (Pixels / pixels per step) - pasos maximos
+   target_x_position = (center_x / 15) - 17 # (Pixels / pixels per step) - pasos maximos
    #target_y_position = (center_y / 15) - 16
 
    steps_to_target_in_x = target_x_position - pan_motor.get_position()

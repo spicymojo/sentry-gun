@@ -7,7 +7,10 @@
     <bookmark url="file://$PROJECT_DIR$/gpio/gpio_calibrate.py" line="2" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6417024-6c1d-4851-a0bd-3dfeada9d836" name="Default" comment="" />
+    <list default="true" id="c6417024-6c1d-4851-a0bd-3dfeada9d836" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sentry_gun.py" beforeDir="false" afterPath="$PROJECT_DIR$/sentry_gun.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,12 +19,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="sentry_gun.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sentry_gun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="178" column="27" selection-start-line="178" selection-start-column="27" selection-end-line="178" selection-end-column="27" />
+            <state relative-caret-position="166">
+              <caret line="148" column="43" selection-start-line="148" selection-start-column="43" selection-end-line="148" selection-end-column="43" />
               <folding>
                 <element signature="e#180#195#0" expanded="true" />
               </folding>
@@ -41,7 +44,7 @@
       <file leaf-file-name="stepper.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/stepper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="433">
+            <state relative-caret-position="1479">
               <caret line="88" column="29" selection-start-line="88" selection-start-column="29" selection-end-line="88" selection-end-column="29" />
             </state>
           </provider>
@@ -260,11 +263,11 @@
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="13" sideWeight="0.5078125" side_tool="true" visible="true" weight="0.32965517" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="13" sideWeight="0.50846356" side_tool="true" visible="true" weight="0.32965517" />
       <window_info anchor="right" x="0" y="0" width="337" height="638" id="Documentation" order="5" side_tool="true" visible="true" weight="0.16666667" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Python Console" order="9" sideWeight="0.4921875" visible="true" weight="0.32965517" />
+      <window_info anchor="bottom" id="Python Console" order="9" sideWeight="0.49153647" visible="true" weight="0.32965517" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info content_ui="combo" id="Project" order="0" weight="0.32724902" />
@@ -373,7 +376,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/stepper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
+        <state relative-caret-position="1479">
           <caret line="88" column="29" selection-start-line="88" selection-start-column="29" selection-end-line="88" selection-end-column="29" />
         </state>
       </provider>
@@ -394,8 +397,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sentry_gun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="178" column="27" selection-start-line="178" selection-start-column="27" selection-end-line="178" selection-end-column="27" />
+        <state relative-caret-position="166">
+          <caret line="148" column="43" selection-start-line="148" selection-start-column="43" selection-end-line="148" selection-end-column="43" />
           <folding>
             <element signature="e#180#195#0" expanded="true" />
           </folding>
