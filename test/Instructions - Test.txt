@@ -1,6 +1,6 @@
 In this folder you can find three files that ends in .py:
 
-1. Stepper: Library for control steppers trough L298 driver
+1. Stepper: Library for control steppers with L298 driver
 2. Range_test: Small test for base motor, that spins 17 steps forward, waits,
                turns 34 steps backwards and return to the original position
-3. 30_steps_test: Test thats does 30 steps forward and 30 steps backwars
+3. 30_steps_test: Test thats does 30 steps forward and 30 steps backwards

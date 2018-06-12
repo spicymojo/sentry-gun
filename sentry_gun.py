@@ -46,7 +46,7 @@ tilt_thread = threading.Thread()
 ##### FUNCIONES #####
 def load_config():
     config = json.load(open('config.json'))
-    global minimum_target_area, frame_width, exit_key, motor_revs, \
+    global minimum_target_area, frame_width, exit_key, motor_delay, \
         motor_testing_steps, frame_color,center_color, test_motors, \
         print_movement_values
 
@@ -58,8 +58,9 @@ def load_config():
     center_color = string_to_rgb(config['GENERAL']['TARGET_CENTER_COLOR'])
 
     # Motor config
-    motor_revs = config['MOTOR']['MOTOR_REVS']
+    motor_delay = config['MOTOR']['MOTOR_DELAY']
     motor_testing_steps = config['MOTOR']['TESTING_STEPS']
+
 
     # Debug
     test_motors = config['DEBUG']['TEST_MOTORS']
@@ -150,10 +151,12 @@ def calculate_moves(center_x, center_y):
    target_y_position = (center_y / 15) - 16
 
    steps_to_target_in_x = target_x_position - pan_motor.get_position()
-   steps_to_target_in_y = target_y_position + tilt_motor.get_position()
 
-   launch_threads(steps_to_target_in_x,steps_to_target_in_y)
-   #pan_thread.join()
+   #TILT
+#   steps_to_target_in_y = target_y_position + tilt_motor.get_position()
+
+   launch_threads(steps_to_target_in_x,0)
+   #launch_threads(steps_to_target_in_x,steps_to_target_in_y)
 
 
 def launch_threads(steps_to_target_in_x,steps_to_target_in_y):
@@ -163,6 +166,8 @@ def launch_threads(steps_to_target_in_x,steps_to_target_in_y):
     else:
         pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), FORWARD))
 
+"""
+    TILT
     if steps_to_target_in_y > 0:
         tilt_thread = threading.Thread(target=move_motor(tilt_motor, abs(steps_to_target_in_y), BACKWARD))
     else:
@@ -170,7 +175,7 @@ def launch_threads(steps_to_target_in_x,steps_to_target_in_y):
 
     pan_thread.start()
     tilt_thread.start()
-
+"""
     #pan_thread.join()
     #tilt_thread.join()
 ##### LIMPIEZA #####
@@ -207,9 +212,9 @@ print("[DONE] Cámara lista!")
 
 print("[INFO] Inicializamos los motores...")
 pan_motor = Stepper("BASE", 12,16,20,21)
-tilt_motor = Stepper("SOPORTE",18,23,24,25)
+#tilt_motor = Stepper("SOPORTE",18,23,24,25)
 print(pan_motor.get_name()  + "    PUERTOS: " + pan_motor.get_gpio_ports())
-print(tilt_motor.get_name() + "    PUERTOS: " + tilt_motor.get_gpio_ports())
+#print(tilt_motor.get_name() + "    PUERTOS: " + tilt_motor.get_gpio_ports())
 
 
 if test_motors == "True":

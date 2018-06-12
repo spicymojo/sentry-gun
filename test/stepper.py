@@ -1,40 +1,46 @@
 import RPi.GPIO as GPIO
 import time
 
-delay = 0.05
-steps = 200
-coil_1_pin_1 = 0
-coil_1_pin_2 = 0
-coil_2_pin_1 = 0
-coil_2_pin_2 = 0
-position = 0
-actual_step = 0
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 full_step = [[1,0,1,0],[0,1,1,0],[0,1,0,1],[1,0,0,1]]
 reverse_step = [[1,0,0,1],[0,1,0,1],[0,1,1,0],[1,0,1,0]]
-
+actual_step = 0
+steps_from_center = 0
 
 class Stepper:
-    def __init__(self, port1,port2,port3,port4):
-        global coil_1_pin_1, coil_1_pin_2, coil_2_pin_1, coil_2_pin_2,pasos
-        coil_1_pin_1 = port1
-        coil_1_pin_2 = port2
-        coil_2_pin_1 = port3
-        coil_2_pin_2 = port4
+    def __init__(self, name, port1,port2,port3,port4):
+        self.name = name
+        self.coil_1_pin_1 = port1
+        self.coil_1_pin_2 = port2
+        self.coil_2_pin_1 = port3
+        self.coil_2_pin_2 = port4
         self.position = 0
+        self.delay = 0.01
         self.set_gpio_out()
 
+    def set_name(self, name):
+        self.name = name
+
+    def get_name(self):
+        return self.name
+
+    def set_delay(self, delay):
+        self.delay = delay
+
+    def get_delay(self):
+        return str(self.delay)
+
     def set_gpio_out(self):
-        GPIO.setup(coil_1_pin_1, GPIO.OUT)
-        GPIO.setup(coil_1_pin_2, GPIO.OUT)
-        GPIO.setup(coil_2_pin_1, GPIO.OUT)
-        GPIO.setup(coil_2_pin_2, GPIO.OUT)
+        GPIO.setup(self.coil_1_pin_1, GPIO.OUT)
+        GPIO.setup(self.coil_1_pin_2, GPIO.OUT)
+        GPIO.setup(self.coil_2_pin_1, GPIO.OUT)
+        GPIO.setup(self.coil_2_pin_2, GPIO.OUT)
 
     def get_gpio_ports(self):
-        return "[" + str(coil_1_pin_1) + "," + str(coil_1_pin_2) + "," \
-               + str(coil_2_pin_1) + "," + str(coil_2_pin_2) + "]"
+        return "[" + str(self.coil_1_pin_1) + "," + str(self.coil_1_pin_2) + "," \
+               + str(self.coil_2_pin_1) + "," + str(self.coil_2_pin_2) + "]"
 
     # Steps from center
     def get_position(self):
@@ -70,7 +76,7 @@ class Stepper:
                 self.do_step(full_step[3])
                 actual_step = 0
             self.update_position(1)
-            time.sleep(delay)
+            time.sleep(self.delay)
 
     def move_backwards(self,steps):
         global  actual_step
@@ -88,19 +94,19 @@ class Stepper:
                 self.do_step(reverse_step[3])
                 actual_step = 0
             self.update_position(-1)
-            time.sleep(delay)
+            time.sleep(self.delay)
 
     def do_step(self, gpio):
-        GPIO.output(coil_1_pin_1, gpio[0])
-        GPIO.output(coil_1_pin_2, gpio[1])
-        GPIO.output(coil_2_pin_1, gpio[2])
-        GPIO.output(coil_2_pin_2, gpio[3])
+        GPIO.output(self.coil_1_pin_1, gpio[0])
+        GPIO.output(self.coil_1_pin_2, gpio[1])
+        GPIO.output(self.coil_2_pin_1, gpio[2])
+        GPIO.output(self.coil_2_pin_2, gpio[3])
 
     def off(self):
-        GPIO.output(coil_1_pin_1, 0)
-        GPIO.output(coil_1_pin_2, 0)
-        GPIO.output(coil_2_pin_1, 0)
-        GPIO.output(coil_2_pin_2, 0)
+        GPIO.output(self.coil_1_pin_1, 0)
+        GPIO.output(self.coil_1_pin_2, 0)
+        GPIO.output(self.coil_2_pin_1, 0)
+        GPIO.output(self.coil_2_pin_2, 0)
 
 
 
