@@ -1,7 +1,9 @@
 from stepper import Stepper
 import sys, os, atexit, time,curses
-pan_motor = Stepper(12,16,20,21)
+pan_motor = Stepper("Base",6,13,19,26)
 print("Motor 1 (Base): " + pan_motor.get_gpio_ports())
+pan_motor.set_delay(0.01)
+print("Motor delay: " + pan_motor.get_delay())
 pan_motor.off()
 
 
