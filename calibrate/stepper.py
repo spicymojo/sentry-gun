@@ -20,17 +20,22 @@ class Stepper:
         self.delay = 0.01
         self.set_gpio_out()
 
+    # NOTE: step_delay = [(1000 *1000 * 60)/200] / rpm , if revs != 200, change this number
+    def set_speed(self,rpm):
+        microseconds = 300000.0/rpm
+        self.delay = microseconds / 1000000.0  # Seconds
+
+    def get_speed(self):
+        return int(((300000 / self.delay) / 1000000))
+
+    def get_delay(self):
+        return str(self.delay)
+
     def set_name(self, name):
         self.name = name
 
     def get_name(self):
         return self.name
-
-    def set_delay(self, delay):
-        self.delay = delay
-
-    def get_delay(self):
-        return str(self.delay)
 
     def set_gpio_out(self):
         GPIO.setup(self.coil_1_pin_1, GPIO.OUT)
@@ -41,6 +46,11 @@ class Stepper:
     def get_gpio_ports(self):
         return "[" + str(self.coil_1_pin_1) + "," + str(self.coil_1_pin_2) + "," \
                + str(self.coil_2_pin_1) + "," + str(self.coil_2_pin_2) + "]"
+
+    # Motor Info
+    def print_info(self):
+        return "Motor: " + self.get_name() +" \nSpeed: " + str(self.get_speed()) \
+                + " rpm \nPorts: " + self.get_gpio_ports()
 
     # Steps from center
     def get_position(self):
