@@ -1,6 +1,6 @@
 from stepper import Stepper
 import sys, os, atexit, time,curses
-pan_motor = Stepper("Base",20,21)
+pan_motor = Stepper("Base",16,20,21)
 pan_motor.set_speed(10)
 print(pan_motor.print_info())
 #pan_motor.off()
@@ -22,10 +22,10 @@ try:
 			pan_motor.round_forward()
 		elif char == curses.KEY_RIGHT:
 			screen.addstr(0, 0, 'Moviendo a derecha...  ')
-			pan_motor.move_forward(1)
+			pan_motor.precision_move_forward()
 		elif char == curses.KEY_LEFT:
 			screen.addstr(0, 0, 'Moviendo a izquierda...')
-			pan_motor.move_backwards(1)
+			pan_motor.precision_move_backwards()
 		elif char == curses.KEY_DOWN:
 			screen.addstr(0, 0, 'Vuelta...')
 			pan_motor.round_backwards()

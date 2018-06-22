@@ -4,14 +4,15 @@ from time import sleep
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-FORWARD = 1
-BACKWARDS = 0
+FORWARD = 0
+BACKWARDS = 1
 HIGH = 1
 LOW = 0
 
 class Stepper:
-    def __init__(self, name,direction_pin, step_pin):
+    def __init__(self, name,mode,direction_pin, step_pin):
         self.name = name
+        self.mode = mode
         self.position = 0
         self.delay = 60000
         self.direction_pin = direction_pin
@@ -22,15 +23,17 @@ class Stepper:
 
     # NOTE: step_delay = [(1000 *1000 * 60)/200] / rpm , if revs != 200, change this number
     def set_speed(self,rpm):
-        microseconds = 300000.0/rpm
-        self.delay = microseconds / 1000000.0  # Seconds
+        self.delay = (60.0 / (rpm * 200 * 16)) / 2.0
+        #microseconds = 300000.0/rpm
+        #self.delay = microseconds / 1000000.0  # Seconds
         print self.delay
 
     def get_speed(self):
-        return int(((300000 / self.delay) / 1000000))
+        return 60 / (200 * self.mode * self.delay * 2)
+        #return int(((300000 / (self.delay*2)) / 1000000))
 
     def get_delay(self):
-        return str(self.delay)
+        return str(self.delay*2.0)
 
     def set_name(self, name):
         self.name = name
@@ -54,21 +57,31 @@ class Stepper:
     def round_forward(self):
         self.move_forward(200)
 
-
     def round_backwards(self):
         self.move_backwards(200)
 
     def move_forward(self,steps):
         GPIO.output(self.direction_pin, FORWARD)
-        for i in range(steps):
+        for i in range(steps * 16):
             self.do_step()
-            self.position += 1
+            if i % self.mode == 0:
+                self.position += 1
+
 
     def move_backwards(self,steps):
         GPIO.output(self.direction_pin, BACKWARDS)
-        for i in range(steps):
+        for i in range(steps * 16):
             self.do_step()
-            self.position -= 1
+            if i % self.mode == 0:
+                self.position -= 1
+
+    def precision_move_forward(self):
+        GPIO.output(self.direction_pin, FORWARD)
+        self.do_step()
+
+    def precision_move_backwards(self):
+        GPIO.output(self.direction_pin, BACKWARDS)
+        self.do_step()
 
     def do_step(self):
         GPIO.output(self.step_pin, GPIO.HIGH)
