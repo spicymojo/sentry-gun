@@ -147,7 +147,9 @@ def move_motor(motor, steps, direction):
 def calculate_moves(center_x, center_y):
 
    # Apertura cámara: 60 grados. Equivale a 38 pasos del motor
-   target_x_position = (center_x / 15) - 15 # (Pixels / pixels per step) - pasos maximos
+   target_x_position = get_position(center_x)
+   print target_x_position
+   #target_x_position = (center_x / 17) - 17 # (Pixels / pixels per step) - pasos maximos
    target_y_position = (center_y / 15) - 15
 
    steps_to_target_in_x = target_x_position - pan_motor.get_position()
@@ -157,6 +159,16 @@ def calculate_moves(center_x, center_y):
 
    launch_threads(steps_to_target_in_x,0)
    #launch_threads(steps_to_target_in_x,steps_to_target_in_y)
+
+def get_position(x_position):
+    steps_x = []
+
+    if steps_x is not []:
+        for i in range(-18,19):
+            steps_x.append(i)
+
+    # 16.84 -> Sabemos que 320/x = 19, y 640/x = 37, así que x debe ser 16.84
+    return steps_x[ int(x_position/16.84)]
 
 
 def launch_threads(steps_to_target_in_x,steps_to_target_in_y):
@@ -178,7 +190,7 @@ def launch_threads(steps_to_target_in_x,steps_to_target_in_y):
 """
     #pan_thread.join()
     #tilt_thread.join()
-##### LIMPIEZA #####
+##### LIMPIEZA #####1
 
 def back_to_center():
     calculate_moves(320,240)
@@ -211,8 +223,8 @@ print("[DONE] Cámara lista!")
 
 
 print("[INFO] Inicializamos los motores...")
-pan_motor = Stepper("BASE", 20,21)
-pan_motor.set_speed(3)
+pan_motor = Stepper("Base",16,20,21)
+pan_motor.set_speed(5)
 print(pan_motor.print_info())
 #tilt_motor = Stepper("SOPORTE",18,23,24,25)
 #print(tilt_motor.get_name() + "    PUERTOS: " + tilt_motor.get_gpio_ports())
