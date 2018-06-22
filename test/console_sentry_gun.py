@@ -212,7 +212,7 @@ print("[DONE] Cámara lista!")
 
 print("[INFO] Inicializamos los motores...")
 pan_motor = Stepper("BASE", 12,16,20,21)
-pan_motor.set_speed(5)
+pan_motor.set_speed(10)
 print(pan_motor.print_info())
 #tilt_motor = Stepper("SOPORTE",18,23,24,25)
 #print(tilt_motor.get_name() + "    PUERTOS: " + tilt_motor.get_gpio_ports())

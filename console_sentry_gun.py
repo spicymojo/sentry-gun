@@ -212,7 +212,7 @@ print("[DONE] Cámara lista!")
 
 print("[INFO] Inicializamos los motores...")
 pan_motor = Stepper("BASE", 12,16,20,21)
-pan_motor.set_speed(5)
+pan_motor.set_speed(10)
 print(pan_motor.print_info())
 #tilt_motor = Stepper("SOPORTE",18,23,24,25)
 #print(tilt_motor.get_name() + "    PUERTOS: " + tilt_motor.get_gpio_ports())
@@ -275,11 +275,6 @@ while True:
 
     # Mostramos la fecha y hora en el livestream
     print_info_on_video()
-
-    # Mostramos las diferentes vistas de la cámara
-    cv2.imshow("Cámara", frame)
-    cv2.imshow("Umbralizado", thresh)
-    cv2.imshow("Frame Delta", frameDelta)
 
     # Comprobamos si el usuario quiere salir
     key = cv2.waitKey(1) & 0xFF

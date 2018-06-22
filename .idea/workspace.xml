@@ -3,21 +3,16 @@
   <component name="AnalysisUIOptions">
     <option name="SCOPE_TYPE" value="3" />
   </component>
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/gpio/gpio_calibrate.py" line="2" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="c6417024-6c1d-4851-a0bd-3dfeada9d836" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/calibrate/calibrate_pan.py" beforeDir="false" afterPath="$PROJECT_DIR$/calibrate/calibrate_pan.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calibrate/stepper.py" beforeDir="false" afterPath="$PROJECT_DIR$/calibrate/stepper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sentry_gun.py" beforeDir="false" afterPath="$PROJECT_DIR$/sentry_gun.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stepper.py" beforeDir="false" afterPath="$PROJECT_DIR$/stepper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/30_steps_test_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/30_steps_test_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Instructions - Test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/Instructions - Test.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/30_steps_test_base.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/test/range_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/range_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/stepper.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/stepper.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,55 +23,44 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="sentry_gun.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sentry_gun.py">
+      <file leaf-file-name="easy_stepper.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/a4988/easy_stepper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="60" column="41" selection-start-line="60" selection-start-column="41" selection-end-line="60" selection-end-column="41" />
+            <state relative-caret-position="160">
+              <caret line="91" column="18" selection-start-line="91" selection-start-column="18" selection-end-line="91" selection-end-column="18" />
               <folding>
-                <element signature="e#180#195#0" expanded="true" />
+                <element signature="e#1411#1421#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config.json">
+      <file leaf-file-name="stepper.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/a4988/stepper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="30_steps_test_base.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/30_steps_test_base.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="16" />
+            <state relative-caret-position="517">
+              <caret line="78" column="18" lean-forward="true" selection-start-line="78" selection-start-column="18" selection-end-line="78" selection-end-column="18" />
               <folding>
-                <element signature="e#0#27#0" expanded="true" />
+                <element signature="e#0#23#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="range_test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/range_test.py">
+        <entry file="file://$PROJECT_DIR$/a4988/range_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="4" selection-start-line="4" selection-end-line="4" />
+            <state relative-caret-position="119">
+              <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stepper.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/stepper.py">
+      <file leaf-file-name="calibrate_pan.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/a4988/calibrate_pan.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#23#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-180">
+              <caret line="3" column="22" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -92,12 +76,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Print</find>
-      <find>pasos</find>
-      <find>base_mo</find>
-      <find>TRu</find>
-      <find>base_motor</find>
-      <find>myStepper</find>
       <find>do_s</find>
       <find>move_forward</find>
       <find>update_steps</find>
@@ -122,13 +100,14 @@
       <find>FORWARD:</find>
       <find>FORWARD</find>
       <find>(delay)</find>
+      <find>20</find>
+      <find>step</find>
+      <find>steps_from</find>
+      <find>steps_from_center</find>
+      <find>24</find>
+      <find>delay</find>
     </findStrings>
     <replaceStrings>
-      <replace>parser</replace>
-      <replace>square_center_x</replace>
-      <replace>square_center_y</replace>
-      <replace>target_frame_color</replace>
-      <replace>frame_color</replace>
       <replace>target_x_position</replace>
       <replace>pan_motor_position</replace>
       <replace>steps_to</replace>
@@ -140,7 +119,6 @@
       <replace>self.do_step</replace>
       <replace>motor_base</replace>
       <replace>target_position</replace>
-      <replace>position</replace>
       <replace>this_step</replace>
       <replace>one_step_forward</replace>
       <replace>pan_motor</replace>
@@ -152,6 +130,14 @@
       <replace>test_motors</replace>
       <replace>draw_targets</replace>
       <replace>(self.delay)</replace>
+      <replace>19</replace>
+      <replace>direction_pin</replace>
+      <replace>step_pin</replace>
+      <replace>steps_from_center += 1</replace>
+      <replace>steps_from_center -= 1</replace>
+      <replace>position</replace>
+      <replace>20</replace>
+      <replace>21</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -160,13 +146,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/calibrate_with_camera.py" />
-        <option value="$PROJECT_DIR$/tests/adafruit_motor_test/StepperTest.py" />
-        <option value="$PROJECT_DIR$/calibrate_motor.py" />
-        <option value="$PROJECT_DIR$/tests/cal.py" />
-        <option value="$PROJECT_DIR$/tests/adafruit_stepper_example.py" />
-        <option value="$PROJECT_DIR$/rpi.py" />
-        <option value="$PROJECT_DIR$/tests/gpio.py" />
         <option value="$PROJECT_DIR$/please.py" />
         <option value="$PROJECT_DIR$/calibrate_base.py" />
         <option value="$PROJECT_DIR$/testing.py" />
@@ -204,13 +183,20 @@
         <option value="$PROJECT_DIR$/gpio/calibrate_pan.py" />
         <option value="$PROJECT_DIR$/gpio/stepper.py" />
         <option value="$PROJECT_DIR$/gpio/sentry_gun.py" />
-        <option value="$PROJECT_DIR$/calibrate/stepper.py" />
-        <option value="$PROJECT_DIR$/stepper.py" />
-        <option value="$PROJECT_DIR$/calibrate/calibrate_pan.py" />
-        <option value="$PROJECT_DIR$/test/30_steps_test_base.py" />
-        <option value="$PROJECT_DIR$/test/range_test.py" />
         <option value="$PROJECT_DIR$/config.json" />
+        <option value="$PROJECT_DIR$/test/stepper.py" />
+        <option value="$PROJECT_DIR$/test/30_steps_test_base.py" />
+        <option value="$PROJECT_DIR$/drv8825/test.py" />
         <option value="$PROJECT_DIR$/sentry_gun.py" />
+        <option value="$PROJECT_DIR$/stepper.py" />
+        <option value="$PROJECT_DIR$/test/range_test.py" />
+        <option value="$PROJECT_DIR$/calibrate/calibrate_pan.py" />
+        <option value="$PROJECT_DIR$/calibrate/stepper.py" />
+        <option value="$PROJECT_DIR$/a4988/easy_stepper.py" />
+        <option value="$PROJECT_DIR$/a4988/calibrate_pan.py" />
+        <option value="$PROJECT_DIR$/a4988/rpimotorlib.py" />
+        <option value="$PROJECT_DIR$/a4988/stepper.py" />
+        <option value="$PROJECT_DIR$/a4988/range_test.py" />
       </list>
     </option>
   </component>
@@ -220,16 +206,45 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="width" value="977" />
-    <option name="height" value="1038" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="350" />
+    <option name="y" value="160" />
+    <option name="width" value="985" />
+    <option name="height" value="835" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="smb-shareserver=raspberrypi,share=sentry-gun" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sentry-gun" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="smb-shareserver=raspberrypi,share=sentry-gun" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sentry-gun" type="462c0819:PsiDirectoryNode" />
+              <item name="a4988" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="smb-shareserver=raspberrypi,share=sentry-gun" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sentry-gun" type="462c0819:PsiDirectoryNode" />
+              <item name="calibrate" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="smb-shareserver=raspberrypi,share=sentry-gun" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sentry-gun" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -238,6 +253,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="Z:\sentry-gun\a4988" />
       <recent name="Z:\sentry-gun\gpio" />
       <recent name="Z:\sentry-gun" />
       <recent name="Z:\sentry-gun\tests" />
@@ -290,18 +306,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="0" width="781" height="830" extended-state="0" />
+    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="13" sideWeight="0.5097784" side_tool="true" visible="true" weight="0.050209206" />
-      <window_info anchor="right" x="0" y="0" width="337" height="638" id="Documentation" order="5" side_tool="true" weight="0.33246753" />
+      <window_info anchor="bottom" id="Event Log" order="13" sideWeight="0.67252606" side_tool="true" visible="true" weight="0.23921569" />
+      <window_info anchor="right" x="0" y="0" width="337" height="678" id="Documentation" order="5" side_tool="true" visible="true" weight="0.032552082" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Python Console" order="9" sideWeight="0.49022165" visible="true" weight="0.050209206" />
+      <window_info anchor="bottom" id="Python Console" order="9" sideWeight="0.32747397" visible="true" weight="0.23921569" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="10" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.32724902" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1640625" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="4" />
@@ -337,12 +353,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/adafruit_stepper_example.py" />
-    <entry file="file://$PROJECT_DIR$/rpi.py" />
-    <entry file="file://$PROJECT_DIR$/tests/gpio.py" />
-    <entry file="file://$PROJECT_DIR$/calibrate_base.py" />
-    <entry file="file://$PROJECT_DIR$/please.py" />
-    <entry file="file://$PROJECT_DIR$/l928.py" />
     <entry file="file://$PROJECT_DIR$/l298_test.py" />
     <entry file="file://$PROJECT_DIR$/tests/rpi_org.py" />
     <entry file="file://$PROJECT_DIR$/pray/l298.py" />
@@ -379,67 +389,10 @@
     <entry file="file://$PROJECT_DIR$/gpio/stepper.py" />
     <entry file="file://$PROJECT_DIR$/gpio/sentry_gun.py" />
     <entry file="file://$PROJECT_DIR$/sentry_gun.py___jb_tmp___" />
-    <entry file="file://$PROJECT_DIR$/calibrate/stepper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1326">
-          <caret line="84" column="45" lean-forward="true" selection-end-line="112" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-            <element signature="e#667#830#0" />
-            <element signature="e#870#1001#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stepper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1377">
-          <caret line="87" column="39" lean-forward="true" selection-start-line="87" selection-start-column="39" selection-end-line="87" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-            <element signature="e#806#989#0" />
-            <element signature="e#1029#1180#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/calibrate/calibrate_pan.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="2" column="38" selection-start-line="2" selection-start-column="38" selection-end-line="2" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/calibrate/calibrate_tilt.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/stepper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/range_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/30_steps_test_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="16" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -450,12 +403,90 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test/stepper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="867">
+          <caret line="52" column="64" selection-start-line="52" selection-start-column="64" selection-end-line="52" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drv8825/test.py" />
+    <entry file="file://$PROJECT_DIR$/test/30_steps_test_base.py" />
+    <entry file="file://$PROJECT_DIR$/stepper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="21" column="18" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sentry_gun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="60" column="41" selection-start-line="60" selection-start-column="41" selection-end-line="60" selection-end-column="41" />
+        <state relative-caret-position="3298">
+          <caret line="214" column="21" selection-start-line="214" selection-start-column="21" selection-end-line="214" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/calibrate/calibrate_pan.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="3" column="21" selection-end-line="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/range_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/calibrate/stepper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="26" column="28" selection-start-line="26" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/a4988/rpimotorlib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="18" selection-start-line="18" selection-end-line="21" selection-end-column="16" />
           <folding>
-            <element signature="e#180#195#0" expanded="true" />
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/a4988/easy_stepper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="91" column="18" selection-start-line="91" selection-start-column="18" selection-end-line="91" selection-end-column="18" />
+          <folding>
+            <element signature="e#1411#1421#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/a4988/range_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/a4988/calibrate_pan.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-180">
+          <caret line="3" column="22" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/a4988/stepper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="517">
+          <caret line="78" column="18" lean-forward="true" selection-start-line="78" selection-start-column="18" selection-end-line="78" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>

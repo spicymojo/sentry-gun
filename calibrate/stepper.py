@@ -19,6 +19,7 @@ class Stepper:
         self.position = 0
         self.delay = 0.01
         self.set_gpio_out()
+        self.off()
 
     # NOTE: step_delay = [(1000 *1000 * 60)/200] / rpm , if revs != 200, change this number
     def set_speed(self,rpm):
@@ -62,13 +63,14 @@ class Stepper:
             self.position = 0
 
     def round_forward(self):
+        self.set_speed(8)
         for i in range(200):
             self.move_forward(1)
 
     def round_backwards(self):
+        self.set_speed(8)
         for i in range(200):
-            self.move_forward(1)
-
+            self.move_backwards(1)
 
     def move_forward(self,steps):
         global  actual_step, steps_from_center
@@ -87,6 +89,7 @@ class Stepper:
                 actual_step = 0
             self.update_position(1)
             time.sleep(self.delay)
+        self.off()
 
     def move_backwards(self,steps):
         global  actual_step
@@ -105,6 +108,7 @@ class Stepper:
                 actual_step = 0
             self.update_position(-1)
             time.sleep(self.delay)
+        self.off()
 
     def do_step(self, gpio):
         GPIO.output(self.coil_1_pin_1, gpio[0])
@@ -117,6 +121,3 @@ class Stepper:
         GPIO.output(self.coil_1_pin_2, 0)
         GPIO.output(self.coil_2_pin_1, 0)
         GPIO.output(self.coil_2_pin_2, 0)
-
-
-

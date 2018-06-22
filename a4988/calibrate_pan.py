@@ -1,7 +1,7 @@
 from stepper import Stepper
 import sys, os, atexit, time,curses
-pan_motor = Stepper("Base",12,16,20,21)
-pan_motor.set_speed(4)
+pan_motor = Stepper("Base",20,21)
+pan_motor.set_speed(10)
 print(pan_motor.print_info())
 #pan_motor.off()
 
