@@ -147,10 +147,8 @@ def move_motor(motor, steps, direction):
 def calculate_moves(center_x, center_y):
 
    # Apertura cámara: 60 grados. Equivale a 38 pasos del motor
-   target_x_position = get_position(center_x)
+   target_x_position,target_y_position = get_position(center_x, center_y)
    print target_x_position
-   #target_x_position = (center_x / 17) - 17 # (Pixels / pixels per step) - pasos maximos
-   target_y_position = (center_y / 15) - 15
 
    steps_to_target_in_x = target_x_position - pan_motor.get_position()
 
@@ -160,23 +158,36 @@ def calculate_moves(center_x, center_y):
    launch_threads(steps_to_target_in_x,0)
    #launch_threads(steps_to_target_in_x,steps_to_target_in_y)
 
-def get_position(x_position):
+def get_position(x_position,y_position):
     steps_x = []
+    steps_y = []
 
     if steps_x is not []:
         for i in range(-18,19):
             steps_x.append(i)
 
-    # 16.84 -> Sabemos que 320/x = 19, y 640/x = 37, así que x debe ser 16.84
-    return steps_x[ int(x_position/16.84)]
+    if steps_y is not []:
+        for i in range(-12,13):
+            steps_y.append(i)
 
+    print y_position
+    # 16.84 -> Sabemos que 320/x = 19, y 640/x = 37, así que x debe ser 16.84
+    #return steps_x[ int(x_position/16.84)],steps_y[ int(0/12.8)]
+    return steps_y[ int(y_position/19.2)],steps_x[ int(x_position/16.84)]
 
 def launch_threads(steps_to_target_in_x,steps_to_target_in_y):
     global pan_thread,tilt_thread
+    """
     if steps_to_target_in_x < 0:
         pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), BACKWARD))
     else:
         pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), FORWARD))
+    """
+    if steps_to_target_in_x < 0:
+        pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), FORWARD))
+    else:
+        pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), BACKWARD))
+
 
 """
     TILT
@@ -223,7 +234,7 @@ print("[DONE] Cámara lista!")
 
 
 print("[INFO] Inicializamos los motores...")
-pan_motor = Stepper("Base",16,20,21)
+pan_motor = Stepper("Base",16,12,16)
 pan_motor.set_speed(5)
 print(pan_motor.print_info())
 #tilt_motor = Stepper("SOPORTE",18,23,24,25)

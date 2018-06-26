@@ -7,12 +7,10 @@
     <list default="true" id="c6417024-6c1d-4851-a0bd-3dfeada9d836" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calibrate/calibrate_pan.py" beforeDir="false" afterPath="$PROJECT_DIR$/calibrate/calibrate_pan.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calibrate/stepper.py" beforeDir="false" afterPath="$PROJECT_DIR$/calibrate/stepper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sentry_gun.py" beforeDir="false" afterPath="$PROJECT_DIR$/sentry_gun.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stepper.py" beforeDir="false" afterPath="$PROJECT_DIR$/stepper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/30_steps_test_base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/range_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/range_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a4988/calibrate_pan.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/a4988/range_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/a4988/sentry_gun.py" beforeDir="false" afterPath="$PROJECT_DIR$/a4988/sentry_gun.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a4988/stepper.py" beforeDir="false" afterPath="$PROJECT_DIR$/a4988/stepper.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,44 +21,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="easy_stepper.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/a4988/easy_stepper.py">
+      <file leaf-file-name="sentry_gun.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/a4988/sentry_gun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="91" column="18" selection-start-line="91" selection-start-column="18" selection-end-line="91" selection-end-column="18" />
+            <state relative-caret-position="2856">
+              <caret line="188" column="102" selection-start-line="188" selection-start-column="102" selection-end-line="188" selection-end-column="102" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="calibrate_tilt.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/a4988/calibrate/calibrate_tilt.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="21" column="22" lean-forward="true" selection-start-line="21" selection-end-line="22" />
               <folding>
-                <element signature="e#1411#1421#0" expanded="true" />
+                <element signature="e#0#27#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stepper.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="full_calibration.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/a4988/calibrate/full_calibration.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="26" column="35" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="stepper.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/a4988/stepper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="517">
-              <caret line="78" column="18" lean-forward="true" selection-start-line="78" selection-start-column="18" selection-end-line="78" selection-end-column="18" />
-              <folding>
-                <element signature="e#0#23#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="range_test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/a4988/range_test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="calibrate_pan.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/a4988/calibrate_pan.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-180">
-              <caret line="3" column="22" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
+            <state relative-caret-position="404">
+              <caret line="75" column="7" selection-start-line="75" selection-start-column="7" selection-end-line="75" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -76,14 +71,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>do_s</find>
-      <find>move_forward</find>
-      <find>update_steps</find>
-      <find>get:</find>
-      <find>act</find>
-      <find>motor_base</find>
-      <find>pan_motor_position</find>
-      <find>return_position</find>
       <find>pan_thread.</find>
       <find>pan_thread</find>
       <find>position</find>
@@ -96,7 +83,6 @@
       <find>motor_test</find>
       <find>pan_motor</find>
       <find>tilt_motor</find>
-      <find>base_</find>
       <find>FORWARD:</find>
       <find>FORWARD</find>
       <find>(delay)</find>
@@ -106,9 +92,17 @@
       <find>steps_from_center</find>
       <find>24</find>
       <find>delay</find>
+      <find>12</find>
+      <find>20,21</find>
+      <find>self.mode</find>
+      <find>12,</find>
+      <find>20,2</find>
+      <find>del cal</find>
+      <find>base_</find>
+      <find>print</find>
+      <find>pan</find>
     </findStrings>
     <replaceStrings>
-      <replace>target_x_position</replace>
       <replace>pan_motor_position</replace>
       <replace>steps_to</replace>
       <replace>v</replace>
@@ -138,6 +132,7 @@
       <replace>position</replace>
       <replace>20</replace>
       <replace>21</replace>
+      <replace>self.resolution</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -146,11 +141,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/please.py" />
-        <option value="$PROJECT_DIR$/calibrate_base.py" />
-        <option value="$PROJECT_DIR$/testing.py" />
-        <option value="$PROJECT_DIR$/l928.py" />
-        <option value="$PROJECT_DIR$/l298_test.py" />
         <option value="$PROJECT_DIR$/pray/l298.py" />
         <option value="$PROJECT_DIR$/tests/rpi_org.py" />
         <option value="$PROJECT_DIR$/pray/rpi_org.py" />
@@ -192,11 +182,16 @@
         <option value="$PROJECT_DIR$/test/range_test.py" />
         <option value="$PROJECT_DIR$/calibrate/calibrate_pan.py" />
         <option value="$PROJECT_DIR$/calibrate/stepper.py" />
+        <option value="$PROJECT_DIR$/a4988/rpimotorlib.py" />
         <option value="$PROJECT_DIR$/a4988/easy_stepper.py" />
         <option value="$PROJECT_DIR$/a4988/calibrate_pan.py" />
-        <option value="$PROJECT_DIR$/a4988/rpimotorlib.py" />
-        <option value="$PROJECT_DIR$/a4988/stepper.py" />
         <option value="$PROJECT_DIR$/a4988/range_test.py" />
+        <option value="$PROJECT_DIR$/a4988/calibrate_tilt.py" />
+        <option value="$PROJECT_DIR$/a4988/sentry_gun.py" />
+        <option value="$PROJECT_DIR$/a4988/stepper.py" />
+        <option value="$PROJECT_DIR$/a4988/calibrate/calibrate_pan.py" />
+        <option value="$PROJECT_DIR$/a4988/calibrate/calibrate_tilt.py" />
+        <option value="$PROJECT_DIR$/a4988/calibrate/full_calibration.py" />
       </list>
     </option>
   </component>
@@ -206,17 +201,17 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="350" />
-    <option name="y" value="160" />
-    <option name="width" value="985" />
-    <option name="height" value="835" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="952" />
+    <option name="width" value="977" />
+    <option name="height" value="1088" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -232,6 +227,12 @@
             <path>
               <item name="smb-shareserver=raspberrypi,share=sentry-gun" type="b2602c69:ProjectViewProjectNode" />
               <item name="sentry-gun" type="462c0819:PsiDirectoryNode" />
+              <item name="a4988" type="462c0819:PsiDirectoryNode" />
+              <item name="calibrate" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="smb-shareserver=raspberrypi,share=sentry-gun" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sentry-gun" type="462c0819:PsiDirectoryNode" />
               <item name="calibrate" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -243,7 +244,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -253,6 +253,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="Z:\sentry-gun\a4988\calibrate" />
       <recent name="Z:\sentry-gun\a4988" />
       <recent name="Z:\sentry-gun\gpio" />
       <recent name="Z:\sentry-gun" />
@@ -291,6 +292,30 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="sentry_gun" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="sentry-gun" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/a4988" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/a4988/sentry_gun.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.sentry_gun" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -306,18 +331,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
+    <frame x="762" y="0" width="781" height="870" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="13" sideWeight="0.67252606" side_tool="true" visible="true" weight="0.23921569" />
-      <window_info anchor="right" x="0" y="0" width="337" height="678" id="Documentation" order="5" side_tool="true" visible="true" weight="0.032552082" />
+      <window_info anchor="bottom" id="Event Log" order="13" sideWeight="0.50065106" side_tool="true" visible="true" weight="0.33289298" />
+      <window_info anchor="right" x="0" y="0" width="145" height="670" id="Documentation" order="5" side_tool="true" visible="true" weight="0.031290743" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Python Console" order="9" sideWeight="0.32747397" visible="true" weight="0.23921569" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Python Console" order="9" sideWeight="0.33854166" weight="0.23921569" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49934897" weight="0.32941177" />
       <window_info anchor="bottom" id="Terminal" order="10" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1640625" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.3272727" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="4" />
@@ -349,15 +374,10 @@
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="10" />
+      <option name="time" value="11" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/l298_test.py" />
-    <entry file="file://$PROJECT_DIR$/tests/rpi_org.py" />
-    <entry file="file://$PROJECT_DIR$/pray/l298.py" />
-    <entry file="file://$PROJECT_DIR$/gpio_calibrate.py" />
-    <entry file="file://$PROJECT_DIR$/testing.py" />
     <entry file="file://$PROJECT_DIR$/tests/gpio_motor_test.py" />
     <entry file="file://$PROJECT_DIR$/pray/rpi_org.py" />
     <entry file="file://$PROJECT_DIR$/gpio/config.json" />
@@ -447,47 +467,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/a4988/rpimotorlib.py">
+    <entry file="file://$PROJECT_DIR$/a4988/rpimotorlib.py" />
+    <entry file="file://$PROJECT_DIR$/a4988/easy_stepper.py" />
+    <entry file="file://$PROJECT_DIR$/a4988/calibrate_pan.py" />
+    <entry file="file://$PROJECT_DIR$/a4988/calibrate_tilt.py" />
+    <entry file="file://$PROJECT_DIR$/a4988/range_test.py" />
+    <entry file="file://$PROJECT_DIR$/a4988/sentry_gun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="18" selection-start-line="18" selection-end-line="21" selection-end-column="16" />
+        <state relative-caret-position="2856">
+          <caret line="188" column="102" selection-start-line="188" selection-start-column="102" selection-end-line="188" selection-end-column="102" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/a4988/calibrate/calibrate_pan.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
           <folding>
-            <element signature="e#0#22#0" expanded="true" />
+            <element signature="e#0#27#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/a4988/easy_stepper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="91" column="18" selection-start-line="91" selection-start-column="18" selection-end-line="91" selection-end-column="18" />
-          <folding>
-            <element signature="e#1411#1421#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/a4988/range_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/a4988/calibrate_pan.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-180">
-          <caret line="3" column="22" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/a4988/stepper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="517">
-          <caret line="78" column="18" lean-forward="true" selection-start-line="78" selection-start-column="18" selection-end-line="78" selection-end-column="18" />
+        <state relative-caret-position="404">
+          <caret line="75" column="7" selection-start-line="75" selection-start-column="7" selection-end-line="75" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/a4988/calibrate/calibrate_tilt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="22" lean-forward="true" selection-start-line="21" selection-end-line="22" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#0#27#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/a4988/calibrate/full_calibration.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="26" column="35" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
         </state>
       </provider>
     </entry>

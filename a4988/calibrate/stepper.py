@@ -24,6 +24,9 @@ class Stepper:
     # NOTE: step_delay = [(1000 *1000 * 60)/200] / rpm , if revs != 200, change this number
     def set_speed(self,rpm):
         self.delay = (60.0 / (rpm * 200 * 16)) / 2.0
+        #microseconds = 300000.0/rpm
+        #self.delay = microseconds / 1000000.0  # Seconds
+        print self.delay
 
     def get_speed(self):
         return 60 / (200 * self.mode * self.delay * 2)
