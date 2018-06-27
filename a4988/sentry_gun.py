@@ -173,21 +173,15 @@ def get_position(x_position,y_position):
     print y_position
     # 16.84 -> Sabemos que 320/x = 19, y 640/x = 37, así que x debe ser 16.84
     #return steps_x[ int(x_position/16.84)],steps_y[ int(0/12.8)]
-    return steps_y[ int(y_position/19.2)],steps_x[ int(x_position/16.84)]
+    return steps_x[int(x_position/16.84)],steps_y[ int(y_position/19.2)]
+
 
 def launch_threads(steps_to_target_in_x,steps_to_target_in_y):
     global pan_thread,tilt_thread
-    """
     if steps_to_target_in_x < 0:
         pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), BACKWARD))
     else:
         pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), FORWARD))
-    """
-    if steps_to_target_in_x < 0:
-        pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), FORWARD))
-    else:
-        pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), BACKWARD))
-
 
 """
     TILT
@@ -201,7 +195,7 @@ def launch_threads(steps_to_target_in_x,steps_to_target_in_y):
 """
     #pan_thread.join()
     #tilt_thread.join()
-##### LIMPIEZA #####1
+##### LIMPIEZA #####
 
 def back_to_center():
     calculate_moves(320,240)
@@ -214,6 +208,7 @@ def vacuum_cleaner():
     camera.release()
     time.sleep(1)
     cv2.destroyAllWindows()
+    pan_motor.off()
     print("[DONE] Roomba pasada. Fin del programa")
 
 ###### FIN DE FUNCIONES #####
@@ -234,7 +229,7 @@ print("[DONE] Cámara lista!")
 
 
 print("[INFO] Inicializamos los motores...")
-pan_motor = Stepper("Base",16,19,26)
+pan_motor = Stepper("Base", 16,19,26)
 pan_motor.set_speed(5)
 print(pan_motor.print_info())
 #tilt_motor = Stepper("SOPORTE",18,23,24,25)
@@ -314,3 +309,4 @@ while True:
 # Liberamos recursos, cerramos ventanas y colocamos el motor
 back_to_center()
 vacuum_cleaner()
+
