@@ -24,17 +24,16 @@ try:
 			tilt_motor.move_forward(1)
 		elif char == curses.KEY_RIGHT:
 			screen.addstr(0, 0, 'DERECHA')
-			pan_motor.move_backwards(1)
+			pan_motor.move_forward(1)
 		elif char == curses.KEY_LEFT:
 			screen.addstr(0, 0, 'IZQUIERDA')
-			pan_motor.move_forward(1)
+			pan_motor.move_backwards(1)
 		elif char == curses.KEY_DOWN:
 			screen.addstr(0, 0, 'ABAJO')
 			tilt_motor.move_backwards(1)
 
 
 finally:
-	pan_motor.off()
 	curses.nocbreak();
 	screen.keypad(0);
 	curses.echo()

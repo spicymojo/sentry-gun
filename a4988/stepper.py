@@ -89,5 +89,6 @@ class Stepper:
     def off(self):
         GPIO.output(self.step_pin, LOW)
         GPIO.output(self.direction_pin, LOW)
+        GPIO.cleanup()
 
 

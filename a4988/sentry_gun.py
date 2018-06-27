@@ -143,20 +143,18 @@ def move_motor(motor, steps, direction):
             print(" DOWN ")
 
 
-
 def calculate_moves(center_x, center_y):
+    global pan_motor, tilt_motor
 
-   # Apertura cámara: 60 grados. Equivale a 38 pasos del motor
-   target_x_position,target_y_position = get_position(center_x, center_y)
-   print target_x_position
+    # Apertura cámara: 60 grados. Equivale a 38 pasos del motor
+    target_x_position, target_y_position = get_position(center_x, center_y)
 
-   steps_to_target_in_x = target_x_position - pan_motor.get_position()
+    steps_to_target_in_x = target_x_position - pan_motor.get_position()
+    steps_to_target_in_y = target_y_position + tilt_motor.get_position()
 
-   #TILT
-#   steps_to_target_in_y = target_y_position + tilt_motor.get_position()
+    launch_threads(steps_to_target_in_x,steps_to_target_in_y)
+    #launch_threads(0, steps_to_target_in_y)
 
-   launch_threads(steps_to_target_in_x,0)
-   #launch_threads(steps_to_target_in_x,steps_to_target_in_y)
 
 def get_position(x_position,y_position):
     steps_x = []
@@ -172,7 +170,7 @@ def get_position(x_position,y_position):
 
     print y_position
     # 16.84 -> Sabemos que 320/x = 19, y 640/x = 37, así que x debe ser 16.84
-    #return steps_x[ int(x_position/16.84)],steps_y[ int(0/12.8)]
+    # 19.2 -> 240/x = 13, así que x debe ser 19.2
     return steps_x[int(x_position/16.84)],steps_y[ int(y_position/19.2)]
 
 
@@ -183,18 +181,17 @@ def launch_threads(steps_to_target_in_x,steps_to_target_in_y):
     else:
         pan_thread = threading.Thread(target=move_motor(pan_motor, abs(steps_to_target_in_x), FORWARD))
 
-"""
-    TILT
-    if steps_to_target_in_y > 0:
-        tilt_thread = threading.Thread(target=move_motor(tilt_motor, abs(steps_to_target_in_y), BACKWARD))
-    else:
+    if steps_to_target_in_y < 0:
         tilt_thread = threading.Thread(target=move_motor(tilt_motor, abs(steps_to_target_in_y), FORWARD))
+    else:
+        tilt_thread = threading.Thread(target=move_motor(tilt_motor, abs(steps_to_target_in_y), BACKWARD))
 
     pan_thread.start()
     tilt_thread.start()
 """
     #pan_thread.join()
     #tilt_thread.join()
+"""
 ##### LIMPIEZA #####
 
 def back_to_center():
@@ -213,100 +210,103 @@ def vacuum_cleaner():
 
 ###### FIN DE FUNCIONES #####
 
-load_config()   # Cargamos "config.json"
+try:
+    load_config()   # Cargamos "config.json"
 
-# Capturamos webcam
-print("[START] Preparando cámara....")
-camera_recording = False
+    # Capturamos webcam
+    print("[START] Preparando cámara....")
+    camera_recording = False
 
-while camera_recording is not True:
-    camera = cv2.VideoCapture(0)
-    time.sleep(1)
+    while camera_recording is not True:
+        camera = cv2.VideoCapture(0)
+        time.sleep(1)
 
-    # Esperamos a que la cámara esté preparada
-    camera_recording, _ = camera.read()
-print("[DONE] Cámara lista!")
-
-
-print("[INFO] Inicializamos los motores...")
-pan_motor = Stepper("Base", 16,19,26)
-pan_motor.set_speed(5)
-print(pan_motor.print_info())
-#tilt_motor = Stepper("SOPORTE",18,23,24,25)
-#print(tilt_motor.get_name() + "    PUERTOS: " + tilt_motor.get_gpio_ports())
+        # Esperamos a que la cámara esté preparada
+        camera_recording, _ = camera.read()
+    print("[DONE] Cámara lista!")
 
 
-if test_motors == "True":
-    motor_test()
+    print("[INFO] Inicializamos los motores...")
+    pan_motor = Stepper("Base", 16,19,26)
+    pan_motor.set_speed(5)
+    print(pan_motor.print_info())
 
-# Loop sobre la camara
-while True:
-    # Cogemos el frame inicial y ponemos el texto
-    (video_signal, frame) = camera.read()
+    tilt_motor = Stepper("Top", 16,6,13)
+    tilt_motor.set_speed(5)
+    print(tilt_motor.print_info())
 
-    text = "No hay objetivos"
 
-    # center_colorimensionamos el frame, lo convertimos a escala de grises
-    # y lo desenfocamos (Blur)
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    gray = cv2.GaussianBlur(gray, (21, 21), 0)
+    if test_motors == "True":
+        motor_test()
 
-    # Si no hay primer frame, lo inicializamos
-    if firstFrame is None:
-        if actualFrame is None:
-            print("[INFO] Empezando captura de vídeo... ")
-            actualFrame = gray
-            continue
-        else:
-            #  Calculamos el frame Delta (Diferencia absoluta entre
-            # primer frame y # el frame actual)
-            abs_difference = cv2.absdiff(actualFrame, gray)
-            actualFrame = gray
-            thresh = cv2.threshold(abs_difference,5, 255, cv2.THRESH_BINARY)[1]
-            thresh = cv2.dilate(thresh, None, iterations=2)
+    # Loop sobre la camara
+    while True:
+        # Cogemos el frame inicial y ponemos el texto
+        (video_signal, frame) = camera.read()
 
-            if count > 30:
-                print("[INFO] Esperando movimiento...")
-                if not cv2.countNonZero(thresh) > 0:
-                    firstFrame = gray
-                else:
-                    continue
-            else:
-                count += 1
+        text = "No hay objetivos"
+
+        # center_colorimensionamos el frame, lo convertimos a escala de grises
+        # y lo desenfocamos (Blur)
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        gray = cv2.GaussianBlur(gray, (21, 21), 0)
+
+        # Si no hay primer frame, lo inicializamos
+        if firstFrame is None:
+            if actualFrame is None:
+                print("[INFO] Empezando captura de vídeo... ")
+                actualFrame = gray
                 continue
+            else:
+                #  Calculamos el frame Delta (Diferencia absoluta entre
+                # primer frame y # el frame actual)
+                abs_difference = cv2.absdiff(actualFrame, gray)
+                actualFrame = gray
+                thresh = cv2.threshold(abs_difference,5, 255, cv2.THRESH_BINARY)[1]
+                thresh = cv2.dilate(thresh, None, iterations=2)
 
-    # Calculamos la diferencia absoluta entre el frame actual
-    # y el primer frame
-    frameDelta = cv2.absdiff(firstFrame, gray)
-    thresh = cv2.threshold(frameDelta, 25, 255, cv2.THRESH_BINARY)[1]
+                if count > 30:
+                    print("[INFO] Esperando movimiento...")
+                    if not cv2.countNonZero(thresh) > 0:
+                        firstFrame = gray
+                    else:
+                        continue
+                else:
+                    count += 1
+                    continue
 
-    # Dilatamos la imagen umbralizado, para asi buscar sus contornos
-    thresh = cv2.dilate(thresh, None, iterations=2)
+        # Calculamos la diferencia absoluta entre el frame actual
+        # y el primer frame
+        frameDelta = cv2.absdiff(firstFrame, gray)
+        thresh = cv2.threshold(frameDelta, 25, 255, cv2.THRESH_BINARY)[1]
 
-    # Buscamos el contorno del mayor objetivo
-    best_contour = find_best_target()
+        # Dilatamos la imagen umbralizado, para asi buscar sus contornos
+        thresh = cv2.dilate(thresh, None, iterations=2)
 
-    # Bucle sobre los contornos
-    if best_contour is not None:
-        draw_targets(best_contour)
-        text = "Objetivo detectado!"
+        # Buscamos el contorno del mayor objetivo
+        best_contour = find_best_target()
 
-    # Mostramos la fecha y hora en el livestream
-    print_info_on_video()
+        # Bucle sobre los contornos
+        if best_contour is not None:
+            draw_targets(best_contour)
+            text = "Objetivo detectado!"
 
-    # Mostramos las diferentes vistas de la cámara
-    cv2.imshow("Cámara", frame)
-    cv2.imshow("Umbralizado", thresh)
-    cv2.imshow("Frame Delta", frameDelta)
+        # Mostramos la fecha y hora en el livestream
+        print_info_on_video()
 
-    # Comprobamos si el usuario quiere salir
-    key = cv2.waitKey(1) & 0xFF
-    # Q = Salir del programa
-    if key == ord(exit_key):
-        print(" [INFO] Apagando el sistema...")
-        break
+        # Mostramos las diferentes vistas de la cámara
+        cv2.imshow("Cámara", frame)
+        cv2.imshow("Umbralizado", thresh)
+        cv2.imshow("Frame Delta", frameDelta)
 
-# Liberamos recursos, cerramos ventanas y colocamos el motor
-back_to_center()
-vacuum_cleaner()
+        # Comprobamos si el usuario quiere salir
+        key = cv2.waitKey(1) & 0xFF
+        # Q = Salir del programa
+        if key == ord(exit_key):
+            print(" [INFO] Apagando el sistema...")
+            break
 
+finally:
+    # Liberamos recursos, cerramos ventanas y colocamos el motor
+    back_to_center()
+    vacuum_cleaner()
