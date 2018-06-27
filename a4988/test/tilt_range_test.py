@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 from stepper import Stepper
 import time
 
-tilt_motor = Stepper("Top",16,12,16)
+tilt_motor = Stepper("Top",16,6,13)
 tilt_motor.set_speed(5)
 print(tilt_motor.print_info())
 

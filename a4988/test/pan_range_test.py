@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 from stepper import Stepper
 import time
 
-motor_base = Stepper("Base",16,20,21)
+motor_base = Stepper("Base",16,19,26)
 motor_base.set_speed(5)
 print(motor_base.print_info())
 

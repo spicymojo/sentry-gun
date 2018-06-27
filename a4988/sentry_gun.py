@@ -234,7 +234,7 @@ print("[DONE] Cámara lista!")
 
 
 print("[INFO] Inicializamos los motores...")
-pan_motor = Stepper("Base",16,12,16)
+pan_motor = Stepper("Base",16,19,26)
 pan_motor.set_speed(5)
 print(pan_motor.print_info())
 #tilt_motor = Stepper("SOPORTE",18,23,24,25)
