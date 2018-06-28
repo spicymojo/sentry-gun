@@ -144,11 +144,8 @@ def move_motor(motor, steps, direction):
 
 
 def calculate_moves(center_x, center_y):
-    global pan_motor, tilt_motor
-
     # Apertura cámara: 60 grados. Equivale a 38 pasos del motor
     target_x_position, target_y_position = get_position(center_x, center_y)
-
     steps_to_target_in_x = target_x_position - pan_motor.get_position()
     steps_to_target_in_y = target_y_position + tilt_motor.get_position()
 
@@ -161,7 +158,7 @@ def get_position(x_position,y_position):
     steps_y = []
 
     if steps_x is not []:
-        for i in range(-18,19):
+        for i in range(-13,13):
             steps_x.append(i)
 
     if steps_y is not []:
@@ -171,7 +168,7 @@ def get_position(x_position,y_position):
     print y_position
     # 16.84 -> Sabemos que 320/x = 19, y 640/x = 37, así que x debe ser 16.84
     # 19.2 -> 240/x = 13, así que x debe ser 19.2
-    return steps_x[int(x_position/16.84)],steps_y[ int(y_position/19.2)]
+    return steps_x[int(x_position/23.7)],steps_y[ int(y_position/19.2)]
 
 
 def launch_threads(steps_to_target_in_x,steps_to_target_in_y):
@@ -201,11 +198,10 @@ def back_to_center():
 
 # Liberamos cámara, GPIO y cerramos ventanas
 def vacuum_cleaner():
-    GPIO.cleanup()
     camera.release()
     time.sleep(1)
     cv2.destroyAllWindows()
-    pan_motor.off()
+    #pan_motor.off()
     print("[DONE] Roomba pasada. Fin del programa")
 
 ###### FIN DE FUNCIONES #####

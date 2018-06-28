@@ -87,8 +87,10 @@ class Stepper:
         sleep(self.delay)
 
     def off(self):
-        GPIO.output(self.step_pin, LOW)
-        GPIO.output(self.direction_pin, LOW)
-        GPIO.cleanup()
+        GPIO.output(self.step_pin, GPIO.LOW)
+        GPIO.output(self.direction_pin, GPIO.LOW)
+
+
+
 
 
