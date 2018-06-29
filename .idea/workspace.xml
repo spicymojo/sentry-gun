@@ -4,12 +4,7 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6417024-6c1d-4851-a0bd-3dfeada9d836" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/a4988/sentry_gun.py" beforeDir="false" afterPath="$PROJECT_DIR$/a4988/sentry_gun.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/a4988/test/tilt_range_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/a4988/test/tilt_range_test.py" afterDir="false" />
-    </list>
+    <list default="true" id="c6417024-6c1d-4851-a0bd-3dfeada9d836" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,29 +13,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="sentry_gun.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/a4988/sentry_gun.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="168" column="67" lean-forward="true" selection-start-line="168" selection-start-column="67" selection-end-line="168" selection-end-column="67" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="full_calibration.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/a4988/calibrate/full_calibration.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
-              <folding>
-                <element signature="e#0#27#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -182,9 +155,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="950" />
+    <option name="x" value="947" />
     <option name="width" value="980" />
-    <option name="height" value="1090" />
+    <option name="height" value="1088" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -311,12 +284,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="760" y="0" width="784" height="872" extended-state="0" />
-    <editor active="true" />
+    <frame x="758" y="0" width="784" height="870" extended-state="0" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="13" sideWeight="0.50065106" side_tool="true" visible="true" weight="0.3320158" />
-      <window_info anchor="right" x="0" y="0" width="146" height="672" id="Documentation" order="5" side_tool="true" visible="true" weight="0.031168832" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="13" sideWeight="0.50065106" side_tool="true" visible="true" weight="0.33289298" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Python Console" order="9" sideWeight="0.33854166" weight="0.23921569" />
@@ -334,6 +305,7 @@
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Inspection Results" order="12" weight="0.32965517" />
+      <window_info anchor="right" x="0" y="0" width="146" height="672" id="Documentation" order="5" side_tool="true" visible="true" weight="0.031168832" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32965517" />
@@ -493,7 +465,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/a4988/calibrate/full_calibration.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
+        <state relative-caret-position="493">
           <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
@@ -503,8 +475,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/a4988/sentry_gun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="168" column="67" lean-forward="true" selection-start-line="168" selection-start-column="67" selection-end-line="168" selection-end-column="67" />
+        <state relative-caret-position="17">
+          <caret line="168" column="67" selection-start-line="168" selection-start-column="67" selection-end-line="168" selection-end-column="67" />
         </state>
       </provider>
     </entry>

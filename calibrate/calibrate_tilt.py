@@ -1,8 +1,9 @@
 from stepper import Stepper
 import sys, os, atexit, time,curses
-tilt_motor = Stepper(18,23,24,25)
-print("Motor 1 (Base): " + tilt_motor.get_gpio_ports())
-tilt_motor.off()
+tilt_motor = Stepper("Top",16,12,16)
+tilt_motor.set_speed(10)
+print(tilt_motor.print_info())
+#tilt_motor.off()
 
 
 # Activamos curses para controlar la impresion
@@ -16,14 +17,18 @@ try:
 		char = screen.getch()
 		if char == ord('q'):
 			break
-		elif char == curses.KEY_RIGHT:
-			screen.addstr(0, 0, 'Moviendo a derecha...  ')
+		elif char == curses.KEY_UP:
+			screen.addstr(0, 0, 'Moviendo arriba...  ')
 			tilt_motor.move_forward(1)
-		elif char == curses.KEY_LEFT:
-			screen.addstr(0, 0, 'Moviendo a izquierda...')
-			tilt_motor.move_backwards(1)
-		elif char == curses.KEY_DOWN:
+		elif char == curses.KEY_RIGHT:
+			screen.addstr(0, 0, 'Vuelta arriba...')
 			tilt_motor.round_forward()
+		elif char == curses.KEY_LEFT:
+			screen.addstr(0, 0, 'Vuelta abajo...')
+			tilt_motor.round_backwards()
+		elif char == curses.KEY_DOWN:
+			screen.addstr(0, 0, 'Moviendo abajo...')
+			tilt_motor.move_backwards(1)
 
 
 finally:

@@ -1,9 +1,9 @@
 from stepper import Stepper
 import sys, os, atexit, time,curses
-tilt_motor = Stepper("Top",16,12,16)
-tilt_motor.set_speed(10)
-print(tilt_motor.print_info())
-#tilt_motor.off()
+pan_motor = Stepper("Base",12,16,20,21)
+pan_motor.set_speed(4)
+print(pan_motor.print_info())
+#pan_motor.off()
 
 
 # Activamos curses para controlar la impresion
@@ -18,21 +18,21 @@ try:
 		if char == ord('q'):
 			break
 		elif char == curses.KEY_UP:
-			screen.addstr(0, 0, 'Moviendo arriba...  ')
-			tilt_motor.move_forward(1)
+			screen.addstr(0, 0, 'Vuelta...')
+			pan_motor.round_forward()
 		elif char == curses.KEY_RIGHT:
-			screen.addstr(0, 0, 'Vuelta arriba...')
-			tilt_motor.round_forward()
+			screen.addstr(0, 0, 'Moviendo a derecha...  ')
+			pan_motor.move_forward(1)
 		elif char == curses.KEY_LEFT:
-			screen.addstr(0, 0, 'Vuelta abajo...')
-			tilt_motor.round_backwards()
+			screen.addstr(0, 0, 'Moviendo a izquierda...')
+			pan_motor.move_backwards(1)
 		elif char == curses.KEY_DOWN:
-			screen.addstr(0, 0, 'Moviendo abajo...')
-			tilt_motor.move_backwards(1)
+			screen.addstr(0, 0, 'Vuelta...')
+			pan_motor.round_backwards()
 
 
 finally:
-	tilt_motor.off()
+	pan_motor.off()
 	curses.nocbreak();
 	screen.keypad(0);
 	curses.echo()

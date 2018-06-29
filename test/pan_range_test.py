@@ -8,17 +8,17 @@ print(motor_base.print_info())
 
 try:
     for i in range(5):
-        print ("15 steps <--")
-        motor_base.move_forward(18)
+        print ("14 steps <--")
+        motor_base.move_forward(14)
         time.sleep(1)
 
-        print("30 steps -->")
-        motor_base.move_backwards(36)
+        print("28 steps -->")
+        motor_base.move_backwards(28)
         time.sleep(1)
 
 
-        print ("15 steps <--")
-        motor_base.move_forward(18)
+        print ("14 steps <--")
+        motor_base.move_forward(14)
         time.sleep(1)
 
 finally:
