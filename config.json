@@ -1,14 +1,17 @@
 {
   "GENERAL": {
-    "FRAME_WIDTH": 500,
     "MINIMUM_TARGET_AREA": 500,
     "EXIT_KEY": "q",
     "TARGET_FRAME_COLOR": "0,255,0",
     "TARGET_CENTER_COLOR": "0,0,255"
   },
+  "MESSAGES": {
+    "TARGET_DETECTED" : "Objetivo detectado",
+    "TARGET_NOT_DETECTED":"No hay objetivos"
+  },
   "MOTOR": {
-    "MOTOR_DELAY": 0.02,
-    "TESTING_STEPS": 18
+    "BASE_TESTING_STEPS": 13,
+    "TOP_TESTING_STEPS": 7
   },
   "DEBUG": {
     "TEST_MOTORS" : "False",

@@ -46,21 +46,23 @@ tilt_thread = threading.Thread()
 ##### FUNCIONES #####
 def load_config():
     config = json.load(open('config.json'))
-    global minimum_target_area, frame_width, exit_key, motor_delay, \
-        motor_testing_steps, frame_color,center_color, test_motors, \
+    global minimum_target_area, exit_key,frame_color,center_color,\
+        message_target_detected, message_target_not_detected, \
+        base_testing_steps, top_testing_steps, test_motors,\
         print_movement_values
 
     # General config
     minimum_target_area= config['GENERAL']['MINIMUM_TARGET_AREA']
-    frame_width = config['GENERAL']['FRAME_WIDTH']
     exit_key = config['GENERAL']['EXIT_KEY']
     frame_color = string_to_rgb(config['GENERAL']['TARGET_FRAME_COLOR'])
     center_color = string_to_rgb(config['GENERAL']['TARGET_CENTER_COLOR'])
 
+    # Messages
+    message_target_detected = config['MESSAGES']['TARGET_DETECTED']
+    message_target_not_detected = config['MESSAGES']['TARGET_NOT_DETECTED']
     # Motor config
-    motor_delay = config['MOTOR']['MOTOR_DELAY']
-    motor_testing_steps = config['MOTOR']['TESTING_STEPS']
-
+    base_testing_steps = config['MOTOR']['BASE_TESTING_STEPS']
+    top_testing_steps = config['MOTOR']['TOP_TESTING_STEPS']
 
     # Debug
     test_motors = config['DEBUG']['TEST_MOTORS']
@@ -110,37 +112,38 @@ def print_info_on_video():
 
 
 def motor_test():
-    print("  [TEST] Probando el motor de la base")
-    pan_motor.move_forward(motor_testing_steps)
+    print "  [TEST] Probando el motor de la base"
+    pan_motor.move_forward(base_testing_steps)
     time.sleep(0.5)
-    pan_motor.move_backwards(motor_testing_steps)
+    pan_motor.move_backwards(base_testing_steps)
     time.sleep(0.5)
-    print("  [TEST] Probando el motor del soporte")
-    tilt_motor.move_forward(motor_testing_steps)
+    print "[DONE] \n [TEST] Probando el motor del soporte"
+    tilt_motor.move_forward(top_testing_steps)
     time.sleep(0.5)
-    tilt_motor.move_backwards(motor_testing_steps)
+    tilt_motor.move_backwards(top_testing_steps)
     time.sleep(0.5)
-
+    print "[DONE]"
 
 def move_motor(motor, steps, direction):
     if print_movement_values == "True":
-        print("\n" + "MOTOR: " + motor.get_name() + ". LOCATION  : [" + str(motor.get_position())  + "]. STEPS: " + str(steps))
+        print "MOTOR: " + motor.get_name() + ". LOCATION  : ["\
+              + str(motor.get_position())  + "]. STEPS: " + str(steps)
 
     # Movemos motores
     if direction == FORWARD:
         if motor.get_name() == "BASE":
             motor.move_forward(steps)
-            print("   --->")
+            print "   --->"
         else:
             motor.move_forward(steps)
-            print(" UP ")
+            print " UP "
     else:
         if motor.get_name() == "BASE":
             motor.move_backwards(steps)
-            print("   <---")
+            print "   <---"
         else:
             motor.move_backwards(steps)
-            print(" DOWN ")
+            print " DOWN "
 
 
 def calculate_moves(center_x, center_y):
@@ -192,7 +195,7 @@ def launch_threads(steps_to_target_in_x,steps_to_target_in_y):
 def back_to_center():
     calculate_moves(320,240)
     time.sleep(0.5)
-    print(" [INFO] Colocados motores en posición inicial")
+    print " [INFO] Colocados motores en posición inicial"
 
 # Liberamos cámara, GPIO y cerramos ventanas
 def vacuum_cleaner():
@@ -200,7 +203,7 @@ def vacuum_cleaner():
     time.sleep(1)
     cv2.destroyAllWindows()
     #pan_motor.off()
-    print("[DONE] Roomba pasada. Fin del programa")
+    print "[DONE] Roomba pasada. Fin del programa"
 
 ###### FIN DE FUNCIONES #####
 
@@ -208,7 +211,7 @@ try:
     load_config()   # Cargamos "config.json"
 
     # Capturamos webcam
-    print("[START] Preparando cámara....")
+    print "[START] Preparando cámara...."
     camera_recording = False
 
     while camera_recording is not True:
@@ -217,10 +220,9 @@ try:
 
         # Esperamos a que la cámara esté preparada
         camera_recording, _ = camera.read()
-    print("[DONE] Cámara lista!")
+    print "[DONE] Cámara lista!"
 
-
-    print("[INFO] Inicializamos los motores...")
+    print "[INFO] Inicializamos los motores..."
     pan_motor = Stepper("Base", 16,19,26)
     pan_motor.set_speed(5)
     print(pan_motor.print_info())
@@ -238,7 +240,7 @@ try:
         # Cogemos el frame inicial y ponemos el texto
         (video_signal, frame) = camera.read()
 
-        text = "No hay objetivos"
+        text = message_target_not_detected
 
         # center_colorimensionamos el frame, lo convertimos a escala de grises
         # y lo desenfocamos (Blur)
@@ -248,7 +250,7 @@ try:
         # Si no hay primer frame, lo inicializamos
         if firstFrame is None:
             if actualFrame is None:
-                print("[INFO] Empezando captura de vídeo... ")
+                print "[INFO] Empezando captura de vídeo... "
                 actualFrame = gray
                 continue
             else:
@@ -260,7 +262,7 @@ try:
                 thresh = cv2.dilate(thresh, None, iterations=2)
 
                 if count > 30:
-                    print("[INFO] Esperando movimiento...")
+                    print "[INFO] Esperando movimiento..."
                     if not cv2.countNonZero(thresh) > 0:
                         firstFrame = gray
                     else:
@@ -283,7 +285,7 @@ try:
         # Bucle sobre los contornos
         if best_contour is not None:
             draw_targets(best_contour)
-            text = "Objetivo detectado!"
+            text = message_target_detected
 
         # Mostramos la fecha y hora en el livestream
         print_info_on_video()
@@ -297,7 +299,7 @@ try:
         key = cv2.waitKey(1) & 0xFF
         # Q = Salir del programa
         if key == ord(exit_key):
-            print(" [INFO] Apagando el sistema...")
+            print " [INFO] Apagando el sistema..."
             break
 
 finally:
