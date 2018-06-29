@@ -46,6 +46,7 @@ tilt_thread = threading.Thread()
 ##### FUNCIONES #####
 def load_config():
     config = json.load(open('config.json'))
+    print "[INFO] Cargamos la configuración del usuario"
     global minimum_target_area, exit_key,frame_color,center_color,\
         message_target_detected, message_target_not_detected, \
         base_testing_steps, top_testing_steps, test_motors,\
@@ -167,8 +168,8 @@ def get_position(x_position,y_position):
         for i in range(-7,8):
             steps_y.append(i)
 
-    # 16.84 -> Sabemos que 320/x = 19, y 640/x = 37, así que x debe ser 16.84
-    # 19.2 -> 240/x = 13, así que x debe ser 19.2
+    # 23.7 -> Sabemos que 640/x = 27, y 320/x = 13.5, así que x debe ser 23.7
+    # 32 -> 480/x = 15, y 240/x = 7.5, así que x debe ser 32
     return steps_x[int(x_position/23.7)],steps_y[ int(y_position/32)]
 
 
@@ -202,7 +203,6 @@ def vacuum_cleaner():
     camera.release()
     time.sleep(1)
     cv2.destroyAllWindows()
-    #pan_motor.off()
     print "[DONE] Roomba pasada. Fin del programa"
 
 ###### FIN DE FUNCIONES #####
@@ -237,13 +237,12 @@ try:
 
     # Loop sobre la camara
     while True:
-        # Cogemos el frame inicial y ponemos el texto
-        (video_signal, frame) = camera.read()
 
+        # Leemos el primer frame e imprimimos el texto
+        (video_signal, frame) = camera.read()
         text = message_target_not_detected
 
-        # center_colorimensionamos el frame, lo convertimos a escala de grises
-        # y lo desenfocamos (Blur)
+        # Pasamos el frame a escala de grises, y lo desenfocamos (Facilitamos umbralizamos)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray = cv2.GaussianBlur(gray, (21, 21), 0)
 
@@ -271,8 +270,7 @@ try:
                     count += 1
                     continue
 
-        # Calculamos la diferencia absoluta entre el frame actual
-        # y el primer frame
+        # frameDelta = Diferencia absoluta entre la imagen actual y el frame de referencia
         frameDelta = cv2.absdiff(firstFrame, gray)
         thresh = cv2.threshold(frameDelta, 25, 255, cv2.THRESH_BINARY)[1]
 
@@ -287,17 +285,14 @@ try:
             draw_targets(best_contour)
             text = message_target_detected
 
-        # Mostramos la fecha y hora en el livestream
+        # Mostramos las ventanas y les añadimos el texto
         print_info_on_video()
-
-        # Mostramos las diferentes vistas de la cámara
         cv2.imshow("Cámara", frame)
         cv2.imshow("Umbralizado", thresh)
         cv2.imshow("Frame Delta", frameDelta)
 
         # Comprobamos si el usuario quiere salir
         key = cv2.waitKey(1) & 0xFF
-        # Q = Salir del programa
         if key == ord(exit_key):
             print " [INFO] Apagando el sistema..."
             break

@@ -22,8 +22,8 @@
       <file leaf-file-name="sentry_gun.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sentry_gun.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="262">
-              <caret line="48" column="55" selection-start-line="48" selection-start-column="55" selection-end-line="48" selection-end-column="55" />
+            <state relative-caret-position="229">
+              <caret line="239" column="54" selection-start-line="239" selection-start-column="54" selection-end-line="239" selection-end-column="54" />
               <folding>
                 <element signature="e#180#195#0" expanded="true" />
               </folding>
@@ -51,6 +51,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
+      <find>motor_test</find>
       <find>pan_motor</find>
       <find>tilt_motor</find>
       <find>FORWARD:</find>
@@ -80,7 +81,6 @@
       <find>text</find>
       <find>print</find>
       <find>print(&quot;</find>
-      <find>#</find>
     </findStrings>
     <replaceStrings>
       <replace>doStep</replace>
@@ -461,8 +461,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sentry_gun.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="48" column="55" selection-start-line="48" selection-start-column="55" selection-end-line="48" selection-end-column="55" />
+        <state relative-caret-position="229">
+          <caret line="239" column="54" selection-start-line="239" selection-start-column="54" selection-end-line="239" selection-end-column="54" />
           <folding>
             <element signature="e#180#195#0" expanded="true" />
           </folding>
