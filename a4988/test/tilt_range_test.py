@@ -7,18 +7,18 @@ tilt_motor.set_speed(5)
 print(tilt_motor.print_info())
 
 try:
-    for i in range(5):
+    for i in range(1):
         print ("12 steps <--")
-        tilt_motor.move_forward(12)
-        time.sleep(1)
+        tilt_motor.move_forward(10)
+        time.sleep(10)
 
         print("24 steps -->")
-        tilt_motor.move_backwards(24)
+        tilt_motor.move_backwards(20)
         time.sleep(1)
 
 
         print ("12 steps <--")
-        tilt_motor.move_forward(12)
+        tilt_motor.move_forward(10)
         time.sleep(1)
 
 finally:

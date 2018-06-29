@@ -87,7 +87,7 @@ def find_best_target():
 def draw_targets(contour):
     # Calculamos y dibujamos el marco y su centro
     (x, y, w, h) = cv2.boundingRect(contour)
-    cv2.rectangle(frame, (x, y), (x + w, y + h), frame_color, 2)
+    #cv2.rectangle(frame, (x, y), (x + w, y + h), frame_color, 2)
     draw_target_center(x, y, w, h)
 
 
@@ -157,16 +157,17 @@ def get_position(x_position,y_position):
     steps_y = []
 
     if steps_x is not []:
-        for i in range(-13,14):
+        for i in range(-16,17):
             steps_x.append(i)
 
     if steps_y is not []:
-        for i in range(-7,8):
+        for i in range(-10,10):
             steps_y.append(i)
 
+    print y_position
     # 16.84 -> Sabemos que 320/x = 19, y 640/x = 37, así que x debe ser 16.84
-    # 19.2 -> 240/x = 13, así que x debe ser 19.2
-    return steps_x[int(x_position/23.7)],steps_y[ int(y_position/32)]
+    # 19.2 -> 240/x = 13, así que x debe ser 18.46
+    return steps_x[int(x_position/16.84)],steps_y[ int(y_position/19.2)]
 
 
 def launch_threads(steps_to_target_in_x,steps_to_target_in_y):
@@ -290,8 +291,8 @@ try:
 
         # Mostramos las diferentes vistas de la cámara
         cv2.imshow("Cámara", frame)
-        cv2.imshow("Umbralizado", thresh)
-        cv2.imshow("Frame Delta", frameDelta)
+        #cv2.imshow("Umbralizado", thresh)
+        #cv2.imshow("Frame Delta", frameDelta)
 
         # Comprobamos si el usuario quiere salir
         key = cv2.waitKey(1) & 0xFF
