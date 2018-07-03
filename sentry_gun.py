@@ -87,7 +87,7 @@ def find_best_target():
     return best_contour
 
 
-def draw_targets(contour):
+def draw_targets_frame(contour):
     # Calculamos y dibujamos el marco y su centro
     (x, y, w, h) = cv2.boundingRect(contour)
     cv2.rectangle(frame, (x, y), (x + w, y + h), frame_color, 2)
@@ -282,7 +282,7 @@ try:
 
         # Bucle sobre los contornos
         if best_contour is not None:
-            draw_targets(best_contour)
+            draw_targets_frame(best_contour)
             text = message_target_detected
 
         # Mostramos las ventanas y les añadimos el texto
