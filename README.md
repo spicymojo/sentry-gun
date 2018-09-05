@@ -2,7 +2,7 @@
 Trabajo de Fin de Grado realizado en el Grado de Ingeniería Informática, con mención en Ingeniería del Software, 
 cursado en la Universidad de Las Palmas de Gran Canaria
 <br>
-[![Vídeo demostrativo del proyecto](https://img.youtube.com/vi/xNmcc-VBpow/0.jpg)](https://www.youtube.com/watch?v=xNmcc-VBpow)
+<br>[![Vídeo demostrativo del proyecto](https://img.youtube.com/vi/xNmcc-VBpow/0.jpg)](https://www.youtube.com/watch?v=xNmcc-VBpow)
 
 ## Manual de usuario
 #### 1. Descarga
